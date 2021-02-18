@@ -1,10 +1,10 @@
 package tienda
 
 type Store struct {
-	Name        string `json:"Nombre"`
-	Description string `json:"Descripcion"`
-	Contact     string `json:"Contacto"`
-	Score       int    `json:"Calificacion"`
+	Name        string
+	Description string
+	Contact     string
+	Score       int
 }
 
 func (n *Store) SetName(Name string) {

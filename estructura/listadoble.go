@@ -51,16 +51,35 @@ type List struct {
 func (s *List) Add(e tienda.Store) {
 
 	nodoaux := NewNodo(e)
+	nodoaux.Next = nil
+	nodoaux.Previous = nil
 
 	if s.Frist == nil {
 		s.Frist = nodoaux
+		s.Last = nodoaux
 	} else {
 		nodoaux.SetNext(*s.Frist)
-		nodoaux.SetPrevious(*nodoaux)
+		s.Frist.Previous = nodoaux
 
 		s.Frist = nodoaux
 	}
 	s.size++
+}
+
+func (s *List) AddLast(e tienda.Store) {
+	nodoaux := NewNodo(e)
+	nodoaux.Next = nil
+	nodoaux.Previous = nil
+
+	if s.Frist == nil {
+		s.Frist = nodoaux
+		s.Last = nodoaux
+
+	} else {
+		s.Last.Previous = nodoaux
+		nodoaux.Previous = s.Last
+		s.Last = nodoaux
+	}
 }
 
 func (s List) Printlist() {
@@ -115,5 +134,3 @@ func (s *List) SearchStore(Nombre string) {
 
 	}
 }
-
-
