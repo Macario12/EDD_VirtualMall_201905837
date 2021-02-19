@@ -19,8 +19,14 @@
        "Calificacion": 5
       },
       {
-       "Nombre": "Armados",
-       "Descripcion": "Equipo extremo",
+       "Nombre": "Ar",
+       "Descripcion": "a extremo",
+       "Contacto": "8995222",
+       "Calificacion": 5
+      },
+      {
+       "Nombre": "A",
+       "Descripcion": "Equipo ",
        "Contacto": "8995222",
        "Calificacion": 5
       }
@@ -38,8 +44,8 @@
      ]
     },
     {
-     "Nombre": "celulares",
-     "Tiendas": []
+     "Nombre": "Celulares",
+     "Tiendas": null
     }
    ]
   },
@@ -48,11 +54,11 @@
    "Departamentos": [
     {
      "Nombre": "Deportes",
-     "Tiendas": []
+     "Tiendas": null
     },
     {
      "Nombre": "Comida",
-     "Tiendas": []
+     "Tiendas": null
     },
     {
      "Nombre": "Celulares",

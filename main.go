@@ -60,26 +60,23 @@ func agregar(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(vectorJSON)
 	linealizarMatriz()
-	/*for i := 0; i < len(vectorJSON.Datos); i++ {
-		fmt.Println("Indice: " + (vectorJSON.Datos[i].Indice))
-		for j := 0; j < len(vectorJSON.Datos[i].Departamentos); j++ {
-			fmt.Println("Departamento: " + vectorJSON.Datos[i].Departamentos[j].Departamento)
-			for x := 0; x < len(vectorJSON.Datos[i].Departamentos[j].Tiendas); x++ {
-				fmt.Println("Tienda: " + vectorJSON.Datos[i].Departamentos[j].Tiendas[x].Name)
-				fmt.Println("Contacto: " + vectorJSON.Datos[i].Departamentos[j].Tiendas[x].Description)
-				fmt.Println("Descripcion: " + vectorJSON.Datos[i].Departamentos[j].Tiendas[x].Contact)
-				fmt.Println("Calificacion: " + strconv.Itoa(vectorJSON.Datos[i].Departamentos[j].Tiendas[x].Score))
-			}
-		}
-	}*/
 }
+
+var indicesfor []string
+var depa []string
 
 func linealizarMatriz() {
 	linealizar = make([]estructura.List, 0, len(vectorJSON.Datos)*len(vectorJSON.Datos[0].Departamentos)*5)
+	var varpureba int
 	for i := 0; i < len(vectorJSON.Datos); i++ {
 		fmt.Println("Indice: " + (vectorJSON.Datos[i].Indice))
+		indicesfor = append(indicesfor, (vectorJSON.Datos[i].Indice))
 		for j := 0; j < len(vectorJSON.Datos[i].Departamentos); j++ {
 			fmt.Println("Departamento: " + vectorJSON.Datos[i].Departamentos[j].Departamento)
+			if varpureba == 0 {
+				depa = append(depa, vectorJSON.Datos[i].Departamentos[j].Departamento)
+			}
+
 			var lista1 estructura.List
 			var lista2 estructura.List
 			var lista3 estructura.List
@@ -113,7 +110,11 @@ func linealizarMatriz() {
 			linealizar = append(linealizar, lista4)
 			linealizar = append(linealizar, lista5)
 		}
+
+		varpureba++
 	}
+
+	fmt.Println(depa)
 
 	for i := 0; i < len(linealizar); i++ {
 		Ordenar(linealizar[i])
@@ -200,19 +201,17 @@ func busquedaEspecificaTienda(w http.ResponseWriter, r *http.Request) {
 	indice := string(varaux.Nombre[0])
 	var posicionL int
 	var posi, posj int
-	for i := 0; i < len(vectorJSON.Datos); i++ {
-		if indice == (vectorJSON.Datos[i].Indice) {
-			for j := 0; j < len(vectorJSON.Datos[i].Departamentos); j++ {
-
-				if varaux.Departamento == vectorJSON.Datos[i].Departamentos[j].Departamento {
-					posi = i
-					posj = j
-				}
-			}
+	for i := 0; i < len(indicesfor); i++ {
+		if indice == (indicesfor[i]) {
+			posi = i
 		}
-		posicionL = (posi*len(vectorJSON.Datos[0].Departamentos)+posj)*5 + (varaux.Calificacion - 1)
-
 	}
+	for j := 0; j < len(depa); j++ {
+		if varaux.Departamento == (depa[j]) {
+			posj = j
+		}
+	}
+	posicionL = ((posi*len(depa))+posj)*5 + (varaux.Calificacion - 1)
 	json.NewEncoder(w).Encode(linealizar[posicionL].SearchStore(varaux.Nombre))
 }
 
@@ -230,19 +229,17 @@ func eliminarTienda(w http.ResponseWriter, r *http.Request) {
 	indice := string(varaux.Nombre[0])
 	var posicionL int
 	var posi, posj int
-	for i := 0; i < len(vectorJSON.Datos); i++ {
-		if indice == (vectorJSON.Datos[i].Indice) {
-			for j := 0; j < len(vectorJSON.Datos[i].Departamentos); j++ {
-
-				if varaux.Departamento == vectorJSON.Datos[i].Departamentos[j].Departamento {
-					posi = i
-					posj = j
-				}
-			}
+	for i := 0; i < len(indicesfor); i++ {
+		if indice == (indicesfor[i]) {
+			posi = i
 		}
-		posicionL = (posi*len(vectorJSON.Datos[0].Departamentos)+posj)*5 + (varaux.Calificacion - 1)
-
 	}
+	for j := 0; j < len(depa); j++ {
+		if varaux.Departamento == (depa[j]) {
+			posj = j
+		}
+	}
+	posicionL = ((posi*len(depa))+posj)*5 + (varaux.Calificacion - 1)
 	if linealizar[posicionL].DeleteStore(varaux.Nombre) {
 
 		json.NewEncoder(w).Encode("Se eliminó exitosamente")
@@ -257,17 +254,27 @@ func inicial(w http.ResponseWriter, r *http.Request) {
 
 func graficar(w http.ResponseWriter, r *http.Request) {
 	var contadorGraficapart int
-	for i := 0; i < len(vectorJSON.Datos); i++ {
+	/*	for i := 0; i < len(vectorJSON.Datos); i++ {
 		for j := 0; j < len(vectorJSON.Datos[i].Departamentos); j++ {
+			contadorGraficapart++
+			graficodelArreglo(i, j, contadorGraficapart)
+		}
+	}*/
+
+	for i := 0; i < len(indicesfor); i++ {
+		for j := 0; j < len(depa); j++ {
 			contadorGraficapart++
 			graficodelArreglo(i, j, contadorGraficapart)
 		}
 	}
 
 	fmt.Fprintf(w, "to cool")
+	iniciociclo = 0
+	posicionesvector = 0
 }
 
 var iniciociclo int
+var posicionesvector int
 
 func graficodelArreglo(i int, j int, contadorGraficapart int) {
 	archivo, _ := os.Create("graficoLinealizado" + strconv.Itoa(contadorGraficapart) + ".dot")
@@ -279,8 +286,8 @@ func graficodelArreglo(i int, j int, contadorGraficapart int) {
 	var contadoraux int
 	for x := 0; x < 5; x++ {
 
-		_, _ = archivo.WriteString("struct" + strconv.Itoa(contador) + "[shape=record,label=\"" + (vectorJSON.Datos[i].Indice) + "|" + vectorJSON.Datos[i].Departamentos[j].Departamento + "|{" + strconv.Itoa(x+1) + "| pos:" + strconv.Itoa(contador) + "}\"];" + "\n")
-
+		_, _ = archivo.WriteString("struct" + strconv.Itoa(contador) + "[shape=record,label=\"" + (vectorJSON.Datos[i].Indice) + "|" + vectorJSON.Datos[i].Departamentos[j].Departamento + "|{" + strconv.Itoa(x+1) + "| pos:" + strconv.Itoa(posicionesvector) + "}\"];" + "\n")
+		posicionesvector++
 		contador++
 
 	}
@@ -293,37 +300,36 @@ func graficodelArreglo(i int, j int, contadorGraficapart int) {
 		}
 	}
 	_, _ = archivo.WriteString("}" + "\n")
-
 	var contadoaux2 int
-	var contadoraux4 int
 	var contadoraux3 int
+	var contadoaux5 int
 	for i := iniciociclo; i < contadorGraficapart*5; i++ {
-		contadoraux4++
+
 		contadoraux3 = contadoaux2
+		var contador4 int
 		a := linealizar[i].Frist
-		var contador5 int
+
 		_, _ = archivo.WriteString("subgraph cluster" + strconv.Itoa(i) + "{" + "\n")
 		_, _ = archivo.WriteString("edge[dir=both]" + "\n")
 		for a != nil {
-			contadoaux2++
 			_, _ = archivo.WriteString("nodo" + strconv.Itoa(contadoaux2) + "[shape=record,label=\"{" + a.Store.Name + "|" + a.Store.Contact + "}\"];" + "\n")
 
-			contador5++
+			contadoaux2++
+			contador4++
 			a = a.Next
 		}
+		for x := 0; x < contador4; x++ {
+			if contadoraux3+1+x < contadoaux2 {
+				_, _ = archivo.WriteString("nodo" + strconv.Itoa(contadoraux3+x) + "->" + "nodo" + strconv.Itoa(contadoraux3+1+x) + "\n")
 
-		for x := 0; x < contador5-1; x++ {
-			if x+1 <= contador5 && contador5 > 1 {
-				_, _ = archivo.WriteString("nodo" + strconv.Itoa(contadoaux2-1+x) + "->" + "nodo" + strconv.Itoa(contadoaux2+x) + "\n")
 			}
 		}
 
 		_, _ = archivo.WriteString("}" + "\n")
-
-		if contador5 > 0 {
-			_, _ = archivo.WriteString("struct" + strconv.Itoa(contadoraux4-1) + "-> nodo" + strconv.Itoa(contadoraux3+1) + " [lhead=cluster" + strconv.Itoa(contadoraux4-1) + "];" + "\n")
+		if contador4 > 0 {
+			_, _ = archivo.WriteString("struct" + strconv.Itoa(contadoaux5) + "-> nodo" + strconv.Itoa(contadoraux3) + " [lhead=cluster" + strconv.Itoa(contadoaux5) + "];" + "\n")
 		}
-
+		contadoaux5++
 	}
 
 	_, _ = archivo.WriteString("}" + "\n")
@@ -331,36 +337,45 @@ func graficodelArreglo(i int, j int, contadorGraficapart int) {
 	iniciociclo = contadorGraficapart * 5
 
 	path, _ := exec.LookPath("dot")
-	cmd, _ := exec.Command(path, "-Tpng", "./graficoLinealizado"+strconv.Itoa(contadorGraficapart)+".dot").Output()
+	cmd, _ := exec.Command(path, "-Tpdf", "./graficoLinealizado"+strconv.Itoa(contadorGraficapart)+".dot").Output()
 	mode := 0777
-	_ = ioutil.WriteFile("graficia"+strconv.Itoa(contadorGraficapart)+".png", cmd, os.FileMode(mode))
+	_ = ioutil.WriteFile("graficia"+strconv.Itoa(contadorGraficapart)+".pdf", cmd, os.FileMode(mode))
 }
 
 func guardar(w http.ResponseWriter, r *http.Request) {
 
 	var jsongenerado vector
+	var datosguardar datos
+
+	jsongenerado.Datos = make([]datos, 0, len(indicesfor))
 	var contador int
-	jsongenerado = vectorJSON
-	for i := 0; i < len(vectorJSON.Datos); i++ {
-		jsongenerado.Datos[i].Indice = vectorJSON.Datos[i].Indice
-		for j := 0; j < len(vectorJSON.Datos[i].Departamentos); j++ {
-			jsongenerado.Datos[i].Departamentos[j].Departamento = vectorJSON.Datos[i].Departamentos[j].Departamento
-			var contadorPosci int
-			for x := contador; x < (j+1)*5; x++ {
-				contador = (j + 1) * 5
-				a := linealizar[x].Frist
+	var contador2 int
+	for i := 0; i < len(indicesfor); i++ {
+
+		var deparguardar []departamentos
+		var deparindividual departamentos
+		for j := 0; j < len(depa); j++ {
+			contador2++
+			var tiendasguardar []Store
+			var tiendaindividual Store
+			for k := contador; k < (contador2)*5; k++ {
+				a := linealizar[k].Frist
 
 				for a != nil {
-					jsongenerado.Datos[i].Departamentos[j].Tiendas[contadorPosci].Name = a.Store.Name
-					jsongenerado.Datos[i].Departamentos[j].Tiendas[contadorPosci].Description = a.Store.Description
-					jsongenerado.Datos[i].Departamentos[j].Tiendas[contadorPosci].Contact = a.Store.Contact
-					jsongenerado.Datos[i].Departamentos[j].Tiendas[contadorPosci].Score = a.Store.Score
-					contadorPosci++
+					tiendaindividual = Store{a.Store.Name, a.Store.Description, a.Store.Contact, a.Store.Score}
+					tiendasguardar = append(tiendasguardar, tiendaindividual)
 					a = a.Next
 				}
 			}
+			contador = (contador2) * 5
+			deparindividual = departamentos{depa[j], tiendasguardar}
+			deparguardar = append(deparguardar, deparindividual)
 		}
+
+		datosguardar = datos{indicesfor[i], deparguardar}
+		jsongenerado.Datos = append(jsongenerado.Datos, datosguardar)
 	}
+	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(jsongenerado)
 	datos, _ := json.MarshalIndent(jsongenerado, "", " ")
 	_ = ioutil.WriteFile("ArchivoGenerado.json", datos, 0644)

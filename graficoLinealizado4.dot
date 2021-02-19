@@ -2,11 +2,11 @@ digraph grafico{
 compound=true;
 subgraph cluster0{
 edge[minlen=0.1, dir=fordware]
-struct0[shape=record,label="B|Deportes|{1| pos:0}"];
-struct1[shape=record,label="B|Deportes|{2| pos:1}"];
-struct2[shape=record,label="B|Deportes|{3| pos:2}"];
-struct3[shape=record,label="B|Deportes|{4| pos:3}"];
-struct4[shape=record,label="B|Deportes|{5| pos:4}"];
+struct0[shape=record,label="B|Deportes|{1| pos:15}"];
+struct1[shape=record,label="B|Deportes|{2| pos:16}"];
+struct2[shape=record,label="B|Deportes|{3| pos:17}"];
+struct3[shape=record,label="B|Deportes|{4| pos:18}"];
+struct4[shape=record,label="B|Deportes|{5| pos:19}"];
 struct0->struct1
 struct1->struct2
 struct2->struct3

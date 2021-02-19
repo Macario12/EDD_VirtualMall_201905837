@@ -23,16 +23,18 @@ edge[dir=both]
 }
 subgraph cluster3{
 edge[dir=both]
-nodo1[shape=record,label="{Amador|5588-9988}"];
+nodo0[shape=record,label="{Amador|5588-9988}"];
 }
-struct3-> nodo1 [lhead=cluster3];
+struct3-> nodo0 [lhead=cluster3];
 subgraph cluster4{
 edge[dir=both]
-nodo2[shape=record,label="{Armados|8995222}"];
-nodo3[shape=record,label="{Aurora|5544-3377}"];
-nodo4[shape=record,label="{A|8}"];
+nodo1[shape=record,label="{Armados|8995222}"];
+nodo2[shape=record,label="{Aurora|5544-3377}"];
+nodo3[shape=record,label="{Ar|8995222}"];
+nodo4[shape=record,label="{A|8995222}"];
+nodo1->nodo2
+nodo2->nodo3
 nodo3->nodo4
-nodo4->nodo5
 }
-struct4-> nodo2 [lhead=cluster4];
+struct4-> nodo1 [lhead=cluster4];
 }
