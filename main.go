@@ -336,10 +336,41 @@ func graficodelArreglo(i int, j int, contadorGraficapart int) {
 	_ = ioutil.WriteFile("graficia"+strconv.Itoa(contadorGraficapart)+".png", cmd, os.FileMode(mode))
 }
 
+func guardar(w http.ResponseWriter, r *http.Request) {
+
+	var jsongenerado vector
+	var contador int
+	jsongenerado = vectorJSON
+	for i := 0; i < len(vectorJSON.Datos); i++ {
+		jsongenerado.Datos[i].Indice = vectorJSON.Datos[i].Indice
+		for j := 0; j < len(vectorJSON.Datos[i].Departamentos); j++ {
+			jsongenerado.Datos[i].Departamentos[j].Departamento = vectorJSON.Datos[i].Departamentos[j].Departamento
+			var contadorPosci int
+			for x := contador; x < (j+1)*5; x++ {
+				contador = (j + 1) * 5
+				a := linealizar[x].Frist
+
+				for a != nil {
+					jsongenerado.Datos[i].Departamentos[j].Tiendas[contadorPosci].Name = a.Store.Name
+					jsongenerado.Datos[i].Departamentos[j].Tiendas[contadorPosci].Description = a.Store.Description
+					jsongenerado.Datos[i].Departamentos[j].Tiendas[contadorPosci].Contact = a.Store.Contact
+					jsongenerado.Datos[i].Departamentos[j].Tiendas[contadorPosci].Score = a.Store.Score
+					contadorPosci++
+					a = a.Next
+				}
+			}
+		}
+	}
+	json.NewEncoder(w).Encode(jsongenerado)
+	datos, _ := json.MarshalIndent(jsongenerado, "", " ")
+	_ = ioutil.WriteFile("ArchivoGenerado.json", datos, 0644)
+}
+
 func main() {
 
 	router := mux.NewRouter()
 	router.HandleFunc("/", inicial).Methods("GET")
+	router.HandleFunc("/guardar", guardar).Methods("GET")
 	router.HandleFunc("/getArreglo", graficar).Methods("GET")
 	router.HandleFunc("/cargartienda", agregar).Methods("POST")
 	router.HandleFunc("/TiendaEspecifica", busquedaEspecificaTienda).Methods("POST")

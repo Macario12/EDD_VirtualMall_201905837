@@ -51,35 +51,16 @@ type List struct {
 func (s *List) Add(e tienda.Store) {
 
 	nodoaux := NewNodo(e)
-	nodoaux.Next = nil
+
+	nodoaux.Next = s.Frist
 	nodoaux.Previous = nil
 
-	if s.Frist == nil {
-		s.Frist = nodoaux
-		s.Last = nodoaux
-	} else {
-		nodoaux.SetNext(*s.Frist)
+	if s.Frist != nil {
 		s.Frist.Previous = nodoaux
-
-		s.Frist = nodoaux
 	}
+
+	s.Frist = nodoaux
 	s.size++
-}
-
-func (s *List) AddLast(e tienda.Store) {
-	nodoaux := NewNodo(e)
-	nodoaux.Next = nil
-	nodoaux.Previous = nil
-
-	if s.Frist == nil {
-		s.Frist = nodoaux
-		s.Last = nodoaux
-
-	} else {
-		s.Last.Previous = nodoaux
-		nodoaux.Previous = s.Last
-		s.Last = nodoaux
-	}
 }
 
 func (s List) Printlist() {
@@ -93,35 +74,32 @@ func (s List) Printlist() {
 
 }
 
-func (s *List) DeleteStore(Nombre string) bool{
+func (s *List) DeleteStore(Nombre string) bool {
+	aux := s.Frist
+
 	if s.Frist != nil {
-		nodoaux := s.Frist
-		nodoant := new(Nodo)
-
-		for nodoaux != nil {
-
-			if nodoaux.GetStore().GetName() == Nombre {
-				if nodoant == nil {
-					s.Frist = s.Frist.GetNext()
-					nodoaux.Next = nil
-					nodoaux = nodoant.GetNext()
-					return true
-				} else {
-					nodoant.SetNext(*nodoaux.GetNext())
-					nodoaux.Next = nil
-					nodoaux = nodoant.GetNext()
+		for aux != nil {
+			if aux.Store.Name == Nombre {
+				if s.Frist == aux {
+					s.Frist = aux.Next
 					return true
 				}
-			} else {
-				nodoant = nodoaux
-				nodoaux = nodoaux.GetNext()
-			}
 
+				if aux.Next != nil {
+					aux.Next.Previous = aux.Previous
+					return true
+				}
+
+				if aux.Previous != nil {
+					aux.Previous.Next = aux.Next
+					return true
+				}
+
+			}
+			aux = aux.Next
 		}
 	}
 
-	
-	s.size--
 	return false
 }
 

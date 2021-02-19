@@ -1,0 +1,36 @@
+digraph grafico{
+compound=true;
+subgraph cluster0{
+edge[minlen=0.1, dir=fordware]
+struct0[shape=record,label="C|Juegos para Android|{1| pos:0}"];
+struct1[shape=record,label="C|Juegos para Android|{2| pos:1}"];
+struct2[shape=record,label="C|Juegos para Android|{3| pos:2}"];
+struct3[shape=record,label="C|Juegos para Android|{4| pos:3}"];
+struct4[shape=record,label="C|Juegos para Android|{5| pos:4}"];
+struct0->struct1
+struct1->struct2
+struct2->struct3
+struct3->struct4
+}
+subgraph cluster45{
+edge[dir=both]
+}
+subgraph cluster46{
+edge[dir=both]
+nodo1[shape=record,label="{Cortés e Hijos|949 915 891}"];
+}
+struct1-> nodo1 [lhead=cluster1];
+subgraph cluster47{
+edge[dir=both]
+nodo2[shape=record,label="{Cedillo Toro Hermanos|961308585}"];
+}
+struct2-> nodo2 [lhead=cluster2];
+subgraph cluster48{
+edge[dir=both]
+}
+subgraph cluster49{
+edge[dir=both]
+nodo3[shape=record,label="{Cuellar y Palomo|916.992.110}"];
+}
+struct4-> nodo3 [lhead=cluster4];
+}

@@ -30,7 +30,9 @@ subgraph cluster4{
 edge[dir=both]
 nodo2[shape=record,label="{Armados|8995222}"];
 nodo3[shape=record,label="{Aurora|5544-3377}"];
-nodo2->nodo3
+nodo4[shape=record,label="{A|8}"];
+nodo3->nodo4
+nodo4->nodo5
 }
 struct4-> nodo2 [lhead=cluster4];
 }
