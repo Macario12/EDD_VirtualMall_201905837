@@ -93,7 +93,7 @@ func (s List) Printlist() {
 
 }
 
-func (s *List) DeleteStore(Nombre string) {
+func (s *List) DeleteStore(Nombre string) bool{
 	if s.Frist != nil {
 		nodoaux := s.Frist
 		nodoant := new(Nodo)
@@ -105,10 +105,12 @@ func (s *List) DeleteStore(Nombre string) {
 					s.Frist = s.Frist.GetNext()
 					nodoaux.Next = nil
 					nodoaux = nodoant.GetNext()
+					return true
 				} else {
 					nodoant.SetNext(*nodoaux.GetNext())
 					nodoaux.Next = nil
 					nodoaux = nodoant.GetNext()
+					return true
 				}
 			} else {
 				nodoant = nodoaux
@@ -117,20 +119,27 @@ func (s *List) DeleteStore(Nombre string) {
 
 		}
 	}
+
+	
 	s.size--
+	return false
 }
 
-func (s *List) SearchStore(Nombre string) {
+func (s *List) SearchStore(Nombre string) tienda.Store {
+	tienda := tienda.Store{}
 	if s.Frist != nil {
 		Nodoaux := s.Frist
 
 		for Nodoaux != nil {
 			if Nodoaux.GetStore().GetName() == Nombre {
-				fmt.Println(Nodoaux.GetStore().GetDescription())
+				tienda = Nodoaux.GetStore()
+				return tienda
 
 			}
 			Nodoaux = Nodoaux.Next
 		}
 
 	}
+
+	return tienda
 }
