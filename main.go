@@ -254,12 +254,6 @@ func inicial(w http.ResponseWriter, r *http.Request) {
 
 func graficar(w http.ResponseWriter, r *http.Request) {
 	var contadorGraficapart int
-	/*	for i := 0; i < len(vectorJSON.Datos); i++ {
-		for j := 0; j < len(vectorJSON.Datos[i].Departamentos); j++ {
-			contadorGraficapart++
-			graficodelArreglo(i, j, contadorGraficapart)
-		}
-	}*/
 
 	for i := 0; i < len(indicesfor); i++ {
 		for j := 0; j < len(depa); j++ {
@@ -280,13 +274,14 @@ func graficodelArreglo(i int, j int, contadorGraficapart int) {
 	archivo, _ := os.Create("graficoLinealizado" + strconv.Itoa(contadorGraficapart) + ".dot")
 	_, _ = archivo.WriteString("digraph grafico{" + "\n")
 	_, _ = archivo.WriteString("compound=true;" + "\n")
+	_, _ = archivo.WriteString("color=orangered" + "\n")
 	_, _ = archivo.WriteString("subgraph cluster0{" + "\n")
-	_, _ = archivo.WriteString("edge[minlen=0.1, dir=fordware]" + "\n")
+	_, _ = archivo.WriteString("edge[minlen=0.1,color=\"greenyellow\", dir=fordware]" + "\n")
 	var contador int
 	var contadoraux int
 	for x := 0; x < 5; x++ {
 
-		_, _ = archivo.WriteString("struct" + strconv.Itoa(contador) + "[shape=record,label=\"" + (vectorJSON.Datos[i].Indice) + "|" + vectorJSON.Datos[i].Departamentos[j].Departamento + "|{" + strconv.Itoa(x+1) + "| pos:" + strconv.Itoa(posicionesvector) + "}\"];" + "\n")
+		_, _ = archivo.WriteString("struct" + strconv.Itoa(contador) + "[shape=record,color=\".7 .3 1.0\",label=\"" + (vectorJSON.Datos[i].Indice) + "|" + vectorJSON.Datos[i].Departamentos[j].Departamento + "|{" + strconv.Itoa(x+1) + "| pos:" + strconv.Itoa(posicionesvector) + "}\"];" + "\n")
 		posicionesvector++
 		contador++
 
@@ -310,9 +305,9 @@ func graficodelArreglo(i int, j int, contadorGraficapart int) {
 		a := linealizar[i].Frist
 
 		_, _ = archivo.WriteString("subgraph cluster" + strconv.Itoa(i) + "{" + "\n")
-		_, _ = archivo.WriteString("edge[dir=both]" + "\n")
+		_, _ = archivo.WriteString("edge[color=\"steelblue\",dir=both]" + "\n")
 		for a != nil {
-			_, _ = archivo.WriteString("nodo" + strconv.Itoa(contadoaux2) + "[shape=record,label=\"{" + a.Store.Name + "|" + a.Store.Contact + "}\"];" + "\n")
+			_, _ = archivo.WriteString("nodo" + strconv.Itoa(contadoaux2) + "[shape=record,color=\"darkturquoise\",label=\"{" +"{"+strconv.Itoa(codigoASCII(a.Store.Name))+"|" +a.Store.Name+"}" + "|" + a.Store.Contact + "}\"];" + "\n")
 
 			contadoaux2++
 			contador4++

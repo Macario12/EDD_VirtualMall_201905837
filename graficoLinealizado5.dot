@@ -1,30 +1,37 @@
 digraph grafico{
 compound=true;
+color=orangered
 subgraph cluster0{
-edge[minlen=0.1, dir=fordware]
-struct0[shape=record,label="B|Comida|{1| pos:20}"];
-struct1[shape=record,label="B|Comida|{2| pos:21}"];
-struct2[shape=record,label="B|Comida|{3| pos:22}"];
-struct3[shape=record,label="B|Comida|{4| pos:23}"];
-struct4[shape=record,label="B|Comida|{5| pos:24}"];
+edge[minlen=0.1,color="greenyellow", dir=fordware]
+struct0[shape=record,color=".7 .3 1.0",label="B|Electrónicos para autos|{1| pos:20}"];
+struct1[shape=record,color=".7 .3 1.0",label="B|Electrónicos para autos|{2| pos:21}"];
+struct2[shape=record,color=".7 .3 1.0",label="B|Electrónicos para autos|{3| pos:22}"];
+struct3[shape=record,color=".7 .3 1.0",label="B|Electrónicos para autos|{4| pos:23}"];
+struct4[shape=record,color=".7 .3 1.0",label="B|Electrónicos para autos|{5| pos:24}"];
 struct0->struct1
 struct1->struct2
 struct2->struct3
 struct3->struct4
 }
 subgraph cluster20{
-edge[dir=both]
+edge[color="steelblue",dir=both]
 }
 subgraph cluster21{
-edge[dir=both]
+edge[color="steelblue",dir=both]
 }
 subgraph cluster22{
-edge[dir=both]
+edge[color="steelblue",dir=both]
+nodo0[shape=record,color="darkturquoise",label="{{1604|Balderas y Agosto}|979 824 130}"];
 }
+struct2-> nodo0 [lhead=cluster2];
 subgraph cluster23{
-edge[dir=both]
+edge[color="steelblue",dir=both]
 }
 subgraph cluster24{
-edge[dir=both]
+edge[color="steelblue",dir=both]
+nodo1[shape=record,color="darkturquoise",label="{{2263|Badillo Ramírez e Hijos}|916-817-258}"];
+nodo2[shape=record,color="darkturquoise",label="{{2166|Bueno Santacruz e Hijos}|989-167-262}"];
+nodo1->nodo2
 }
+struct4-> nodo1 [lhead=cluster4];
 }
