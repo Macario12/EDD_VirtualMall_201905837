@@ -1,0 +1,16 @@
+digraph grafico{
+rankdir=UD 
+node[shape=box] 
+concentrate=true 
+nodo441[ shape=record, label ="441"];
+nodo439[ shape=record, label ="439"];
+nodo438[ shape=record, label ="438"];
+nodo439->nodo438
+nodo440[ shape=record, label ="440"];
+nodo439->nodo440
+nodo441->nodo439
+nodo442[ shape=record, label ="442"];
+nodo443[ shape=record, label ="443"];
+nodo442->nodo443
+nodo441->nodo442
+}

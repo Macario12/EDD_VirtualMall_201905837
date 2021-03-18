@@ -7,12 +7,16 @@ import (
 	"log"
 	"net/http"
 	"os/exec"
+	"strings"
 
 	"strconv"
 
 	"os"
 
+	"./arbol_avl"
 	"./estructura"
+	"./matrizDispersa"
+	"./pedidos"
 	"./tienda"
 	"github.com/gorilla/mux"
 )
@@ -36,6 +40,7 @@ type Store struct {
 	Description string `json:"Descripcion"`
 	Contact     string `json:"Contacto"`
 	Score       int    `json:"Calificacion"`
+	Logo        string `json:"Logo"`
 }
 
 type structaux struct {
@@ -87,8 +92,11 @@ func linealizarMatriz() {
 				descraux := vectorJSON.Datos[i].Departamentos[j].Tiendas[x].Description
 				cotactaux := vectorJSON.Datos[i].Departamentos[j].Tiendas[x].Contact
 				scoreaux := vectorJSON.Datos[i].Departamentos[j].Tiendas[x].Score
+				logoaux := vectorJSON.Datos[i].Departamentos[j].Tiendas[x].Logo
 
-				tiendaaux := tienda.Store{nombreaux, descraux, cotactaux, scoreaux}
+				arbolnuevo := arbol_avl.Newtree()
+				fmt.Println(&arbolnuevo)
+				tiendaaux := tienda.Store{nombreaux, descraux, cotactaux, scoreaux, logoaux, arbolnuevo}
 				if scoreaux == 1 {
 					lista1.Add(tiendaaux)
 
@@ -155,7 +163,7 @@ func busquedaPosicionLinealizada(w http.ResponseWriter, r *http.Request) {
 	var sliceTiendas []tienda.Store
 
 	for a != nil {
-		tienda := tienda.Store{a.Store.Name, a.Store.Description, a.Store.Contact, a.Store.Score}
+		tienda := tienda.Store{a.Store.Name, a.Store.Description, a.Store.Contact, a.Store.Score, a.Store.Logo, a.Store.Productos}
 		sliceTiendas = append(sliceTiendas, tienda)
 		a = a.Next
 	}
@@ -171,19 +179,21 @@ func imprimir(l estructura.List) {
 		fmt.Println(a.Store.Description)
 		fmt.Println(a.Store.Contact)
 		fmt.Println(strconv.Itoa(a.Store.Score))
+		fmt.Println(a.Store.Logo)
 
 		a = a.Next
 	}
 }
 
 func codigoASCII(nombre string) int {
-	cadena := []rune(nombre)
 
 	var ascii int
-
-	for i := 0; i < len(cadena); i++ {
-		ascii += int(cadena[i])
+	var inde int
+	for i, c := range nombre {
+		inde = i
+		ascii += int(c)
 	}
+	fmt.Println(inde)
 	return ascii
 }
 
@@ -307,7 +317,7 @@ func graficodelArreglo(i int, j int, contadorGraficapart int) {
 		_, _ = archivo.WriteString("subgraph cluster" + strconv.Itoa(i) + "{" + "\n")
 		_, _ = archivo.WriteString("edge[color=\"steelblue\",dir=both]" + "\n")
 		for a != nil {
-			_, _ = archivo.WriteString("nodo" + strconv.Itoa(contadoaux2) + "[shape=record,color=\"darkturquoise\",label=\"{" +"{"+strconv.Itoa(codigoASCII(a.Store.Name))+"|" +a.Store.Name+"}" + "|" + a.Store.Contact + "}\"];" + "\n")
+			_, _ = archivo.WriteString("nodo" + strconv.Itoa(contadoaux2) + "[shape=record,color=\"darkturquoise\",label=\"{" + "{" + strconv.Itoa(codigoASCII(a.Store.Name)) + "|" + a.Store.Name + "}" + "|" + a.Store.Contact + "}\"];" + "\n")
 
 			contadoaux2++
 			contador4++
@@ -357,7 +367,7 @@ func guardar(w http.ResponseWriter, r *http.Request) {
 				a := linealizar[k].Frist
 
 				for a != nil {
-					tiendaindividual = Store{a.Store.Name, a.Store.Description, a.Store.Contact, a.Store.Score}
+					tiendaindividual = Store{a.Store.Name, a.Store.Description, a.Store.Contact, a.Store.Score, a.Store.Logo}
 					tiendasguardar = append(tiendasguardar, tiendaindividual)
 					a = a.Next
 				}
@@ -376,6 +386,164 @@ func guardar(w http.ResponseWriter, r *http.Request) {
 	_ = ioutil.WriteFile("ArchivoGenerado.json", datos, 0644)
 }
 
+func AgregarInventario(w http.ResponseWriter, r *http.Request) {
+
+	reqBody, err := ioutil.ReadAll(r.Body)
+
+	if err != nil {
+		fmt.Fprintf(w, "Error al insertar")
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	json.Unmarshal(reqBody, &arbol_avl.VectorInventario)
+	agregarProductos()
+	json.NewEncoder(w).Encode(arbol_avl.VectorInventario)
+}
+
+func agregarProductos() {
+	for x := 0; x < len(arbol_avl.VectorInventario.Inventarios); x++ {
+		indice := string(arbol_avl.VectorInventario.Inventarios[x].Tienda[0])
+
+		var posicionL int
+		var posi, posj int
+		for i := 0; i < len(indicesfor); i++ {
+			if indice == (indicesfor[i]) {
+				posi = i
+			}
+		}
+		for j := 0; j < len(depa); j++ {
+			if arbol_avl.VectorInventario.Inventarios[x].Departamento == (depa[j]) {
+				posj = j
+			}
+		}
+		posicionL = ((posi*len(depa))+posj)*5 + (arbol_avl.VectorInventario.Inventarios[x].Calificacion - 1)
+		fmt.Println(posicionL)
+		//TRABAJANDO CON EL ARBOL QUE DEBE DE AGREGAR MUCHOS PORDUCTOS DESPUES DE UNA AGREGADA
+
+		arbolaux := linealizar[posicionL].SearchStore(arbol_avl.VectorInventario.Inventarios[x].Tienda).GetProductos()
+
+		fmt.Println(&arbolaux)
+		for y := 0; y < len(arbol_avl.VectorInventario.Inventarios[x].Productoss); y++ {
+
+			nombreaux := arbol_avl.VectorInventario.Inventarios[x].Productoss[y].Nombre
+			codigoaux := arbol_avl.VectorInventario.Inventarios[x].Productoss[y].Codigo
+			descripcionaux := arbol_avl.VectorInventario.Inventarios[x].Productoss[y].Descripcion
+			precioaux := arbol_avl.VectorInventario.Inventarios[x].Productoss[y].Precio
+			cantidadaux := arbol_avl.VectorInventario.Inventarios[x].Productoss[y].Cantidad
+			imagenaux := arbol_avl.VectorInventario.Inventarios[x].Productoss[y].Imagen
+
+			productoaux := *arbol_avl.NewInventario(nombreaux, codigoaux, descripcionaux, precioaux, cantidadaux, imagenaux)
+			//fmt.Print(productoaux)
+			arbolaux.Insertroot(productoaux)
+		}
+
+		arbol_avl.PreOrden(arbolaux.Root)
+
+		fmt.Println("-----------------------------------------")
+		arbol_avl.Graficararbol(arbolaux.Root, arbol_avl.VectorInventario.Inventarios[x].Tienda+strconv.Itoa(x))
+
+	}
+
+}
+
+func CargarPedidos(w http.ResponseWriter, r *http.Request) {
+
+	reqBody, err := ioutil.ReadAll(r.Body)
+
+	if err != nil {
+		fmt.Fprintf(w, "Error al insertar")
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	json.Unmarshal(reqBody, &pedidos.VectorPedidos)
+	agregarProductos()
+	json.NewEncoder(w).Encode(pedidos.VectorPedidos)
+}
+
+var calendarioPedidos matrizDispersa.ListaDoble
+
+type ContenedorAño struct {
+	año   string
+	meses matrizDispersa.ListaDoble
+}
+
+type ContenedorMes struct {
+	mes    string
+	matris *matrizDispersa.MatrisDispersa
+}
+
+func cargarPedidos(w http.ResponseWriter, r *http.Request) {
+	var contenedorPedidos pedidos.PedidosP
+	_ = json.NewDecoder(r.Body).Decode(&contenedorPedidos)
+
+	//se agregan los años
+	for _, pedido := range contenedorPedidos.PedidosPr {
+		fechaString := strings.Split(pedido.Fecha, "-")
+		año := fechaString[2]
+		añoObject := ContenedorAño{año: año}
+		añoAgregado := false
+		for i := 0; i < calendarioPedidos.GetLen(); i++ {
+			casillaAño := calendarioPedidos.Obtener(i).(ContenedorAño)
+			if año == casillaAño.año {
+				añoAgregado = true
+				break
+			}
+		}
+
+		//se agregan los meses
+		for _, pedido_2 := range contenedorPedidos.PedidosPr {
+			fechaString_2 := strings.Split(pedido_2.Fecha, "-")
+			año_2 := fechaString_2[2]
+			mes := fechaString_2[1]
+			if año_2 == año {
+				mesObject := ContenedorMes{mes: mes}
+				mesAgregado := false
+				for i := 0; i < añoObject.meses.GetLen(); i++ {
+					casillaMes := añoObject.meses.Obtener(i).(ContenedorMes)
+					if mes == casillaMes.mes {
+						mesAgregado = true
+						break
+					}
+				}
+				if mesAgregado == false {
+					matris := new(matrizDispersa.MatrisDispersa)
+					mesObject.matris = matris
+					añoObject.meses.Agregar(mesObject)
+				}
+			}
+		}
+		if añoAgregado == false {
+			calendarioPedidos.Agregar(añoObject)
+		}
+	}
+
+	//agregar los pedidos
+	for _, pedido := range contenedorPedidos.PedidosPr {
+		fechaString := strings.Split(pedido.Fecha, "-")
+		año := fechaString[2]
+		mes := fechaString[1]
+		dia := fechaString[0]
+		for a := 0; a < calendarioPedidos.GetLen(); a++ {
+			contAño := calendarioPedidos.Obtener(a).(ContenedorAño)
+			for b := 0; b < contAño.meses.GetLen(); b++ {
+				contMes := contAño.meses.Obtener(b).(ContenedorMes)
+				if contAño.año == año && contMes.mes == mes {
+					contMes.matris.Insertar(pedido, pedido.Departamento, dia)
+				}
+			}
+		}
+	}
+
+	for i := 0; i < calendarioPedidos.GetLen(); i++ {
+		contAño := calendarioPedidos.Obtener(i).(ContenedorAño)
+		for a := 0; a < contAño.meses.GetLen(); a++ {
+			contMes := contAño.meses.Obtener(a).(ContenedorMes)
+			contMes.matris.Graficar(contAño.año + "_" + contMes.mes)
+		}
+	}
+	json.NewEncoder(w).Encode(contenedorPedidos)
+}
+
 func main() {
 
 	router := mux.NewRouter()
@@ -386,6 +554,8 @@ func main() {
 	router.HandleFunc("/TiendaEspecifica", busquedaEspecificaTienda).Methods("POST")
 	router.HandleFunc("/id/{id}", busquedaPosicionLinealizada).Methods("GET")
 	router.HandleFunc("/Eliminar", eliminarTienda).Methods("DELETE")
+	router.HandleFunc("/agregarINV", AgregarInventario).Methods("POST")
+	router.HandleFunc("/cargarPedidos", cargarPedidos).Methods("POST")
 	log.Fatal(http.ListenAndServe(":3000", router))
 
 }

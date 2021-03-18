@@ -1,10 +1,14 @@
 package tienda
 
+import "../arbol_avl"
+
 type Store struct {
 	Name        string `json:"Nombre"`
 	Description string `json:"Descripcion"`
 	Contact     string `json:"Contacto"`
 	Score       int    `json:"Calificacion"`
+	Logo        string `json:"Logo"`
+	Productos   *arbol_avl.Tree
 }
 
 func (n *Store) SetName(Name string) {
@@ -37,4 +41,8 @@ func (n Store) GetContact() string {
 
 func (n Store) GetScore() int {
 	return n.Score
+}
+
+func (n Store) GetProductos() *arbol_avl.Tree {
+	return n.Productos
 }

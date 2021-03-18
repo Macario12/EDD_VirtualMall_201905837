@@ -82,18 +82,17 @@ func (s *List) DeleteStore(Nombre string) bool {
 			if aux.Store.Name == Nombre {
 				if s.Frist == aux {
 					s.Frist = aux.Next
-					return true
 				}
 
 				if aux.Next != nil {
 					aux.Next.Previous = aux.Previous
-					return true
 				}
 
 				if aux.Previous != nil {
 					aux.Previous.Next = aux.Next
-					return true
 				}
+
+				return true
 
 			}
 			aux = aux.Next
