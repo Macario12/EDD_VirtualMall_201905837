@@ -1,0 +1,148 @@
+<br>
+<h1>Tiendas</h1>
+
+
+<div class="btn-group" role="group" aria-label="Basic example">
+  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Agregar Tiendas
+  </button>
+  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+    Agregar Inventario
+  </button>
+  
+  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+    Agregar Pedidos
+  </button>
+</div>
+
+<!-- Modal Insertar Tiendas-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title" id="exampleModalLabel" style="color: crimson;">Agregar Tiendas</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+        <div class="mb-3">
+          <input class="form-control" type="file" id="formFile" name = "currentInput" accept=".json" [(ngModel)]="currentInput" (change)="onFileSelected($event)">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" (click)="getStore()" data-bs-dismiss="modal">Agregar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Insertar Inventario -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title" id="exampleModalLabel" style="color: crimson;">Agregar Inventario</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+        <div class="mb-3">
+          <input class="form-control" type="file" id="formFile" name = "currentInput" accept=".json" [(ngModel)]="currentInput" (change)="onFileSelectedInventario($event)">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" (click)="getStore()" data-bs-dismiss="modal">Agregar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal visualizar Arbol  -->
+<div class="modal fade" id="modalArbol" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title" id="exampleModalLabel" style="color: crimson;">Arbol de Productos</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+        <img [src]="imageSource" alt="Image Source" class="center">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+       
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<mat-grid-list cols="3" rowHeight="0.6:1">
+    <mat-grid-tile *ngFor="let Tienda of Tiendas">  
+      
+        <mat-card class="example-card">
+          <mat-card-header class="container">
+            <mat-card-title>{{ Tienda.Nombre }}</mat-card-title>
+          </mat-card-header>
+          <img mat-card-image src="{{ Tienda.Logo }}" alt="Photo of a Shiba Inu">
+          <mat-card-content>
+            <mat-card-subtitle> 
+                Descripcion: 
+            </mat-card-subtitle> 
+            <p>
+              {{ Tienda.Descripcion }}
+            </p>
+            <mat-card-subtitle> 
+                Contacto:
+            </mat-card-subtitle> 
+            <p>
+              {{ Tienda.Contacto }}
+            </p>
+            <mat-card-subtitle> 
+                Calificacion: 
+            </mat-card-subtitle> 
+            <p>
+              {{ Tienda.Calificacion }}
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button  mat-stroked-button color="accent" (click)="verProductos(Tienda.Productos)" routerLink='/inventario'>Visitar Tienda</button>
+            
+            <button  mat-stroked-button color="primary" data-bs-toggle="modal" data-bs-target="#modalArbol"  (click)="verArbolModal(Tienda.Arbol64)">Ver arbol</button>
+            <br>
+          </mat-card-actions>
+        </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+ 
+  <script>
+  var myModal = document.getElementById('exampleModal')
+  var myInput = document.getElementById('myInput')
+
+  myModal.addEventListener('shown.bs.modal', function () {
+    myInput.focus()
+  })
+  </script>
+
+<script>
+  var myModal = document.getElementById('exampleModal2')
+  var myInput = document.getElementById('myInput')
+
+  myModal.addEventListener('shown.bs.modal', function () {
+    myInput.focus()
+  })
+  </script>
+
+<script>
+  var myModal = document.getElementById('modalArbol')
+  var myInput = document.getElementById('myInput')
+
+  myModal.addEventListener('shown.bs.modal', function () {
+    myInput.focus()
+  })
+  </script>

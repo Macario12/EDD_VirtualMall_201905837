@@ -1,0 +1,100 @@
+<div class="container" id="padre">
+    <!-- Page Heading -->
+    <div class="row">
+      <div class="col-12">
+        <h1 class="page-header" style="color: black;">Carrito de compras</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-8 mb-4">
+        <form id="cart-update-form" method="post" action="/cart/update">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Codigo</th>
+                  <th>Producto</th>
+                  <th class="mob-hide">Precio por Unidad</th>
+                  <th class="table-qty">Cantidad</th>
+                  <th>Sub Total</th>
+                  <th></th>
+                </tr>
+              </thead>
+              
+              <tbody>
+            <tr *ngFor="let producto of ACarrito">
+                <td >
+                  
+                    <h3>
+                      {{producto.Codigo}}
+                    </h3>
+                    
+                  </td>
+                <td >
+                  
+                  <h3>
+                    {{producto.Nombre}}
+                  </h3>
+                  
+                </td>
+                <td class="mob-hide">
+                  
+                  <span class="order-product-price">Q. {{producto.Precio}}</span>
+                  
+                </td>
+                <td>
+                    <span class="order-product-price">{{producto.Cantidad}}</span>
+                </td>
+                <td>
+                  <span class="order-product-subtotal">{{producto.Precio* producto.Cantidad}}</span>
+
+                </td>
+                <button mat-icon-button color="primary" aria-label="Example icon button with a home icon" (click)="removerItemProducto(producto)">
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                <td clas="text-right"> </td>
+              </tr>
+              
+              <tr>
+              </tr>
+              
+            </tbody></table>
+          </div>
+        <input type="hidden"></form>
+        <hr class="my-3">
+        <div class="row">
+        </div>
+      </div>
+      <div class="col-lg-4 mb-4">
+        <div class="row">
+          
+          <div class="col-sm-12 col-md-12 cart-estimate" >
+            <div class="card mb-3" >
+              <div class="card-header">
+                <h2 class="card-title" style="color: black;">Costo Total</h2>
+              </div>
+            </div>
+          </div>
+          
+  
+          <div class="col-12 cart-totals">
+            <table class="table table-striped">
+  
+              <tbody><tr class="totals key">
+                <td colspan="1" class="text-left"><strong>Total</strong></td>
+                <td colspan="1" class="text-right"><strong>Q. {{_total}}</strong></td>
+              </tr>
+  
+            </tbody></table>
+  
+            <div class="text-center cart-actions">
+              <a href="https://bootstrap.jumpseller.com/checkout?token=ebba04b8a1c3ca2e1cf561a156faa91b" mat-stroked-button color="accent" title="Proceed to Checkout">Realizar Pedido</a>
+  
+              <a routerLink='/home'  mat-stroked-button color="primary" title="← Continue Shopping" >← Continuar Comprando</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>

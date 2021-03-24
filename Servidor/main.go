@@ -53,12 +53,15 @@ var vectorJSON vector
 var linealizar []estructura.List
 
 func agregar(w http.ResponseWriter, r *http.Request) {
-
+	fmt.Println(vectorJSON)
 	reqBody, err := ioutil.ReadAll(r.Body)
 
 	if err != nil {
 		fmt.Fprintf(w, "Error al insertar")
 	}
+	(w).Header().Set("Access-Control-Allow-Origin", "*")
+	(w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	(w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	json.Unmarshal(reqBody, &vectorJSON)
@@ -73,6 +76,7 @@ var depa []string
 func linealizarMatriz() {
 	linealizar = make([]estructura.List, 0, len(vectorJSON.Datos)*len(vectorJSON.Datos[0].Departamentos)*5)
 	var varpureba int
+
 	for i := 0; i < len(vectorJSON.Datos); i++ {
 		fmt.Println("Indice: " + (vectorJSON.Datos[i].Indice))
 		indicesfor = append(indicesfor, (vectorJSON.Datos[i].Indice))
@@ -95,8 +99,9 @@ func linealizarMatriz() {
 				logoaux := vectorJSON.Datos[i].Departamentos[j].Tiendas[x].Logo
 
 				arbolnuevo := arbol_avl.Newtree()
+				arbolaux64 := "soy el imagen Base 64"
 				fmt.Println(&arbolnuevo)
-				tiendaaux := tienda.Store{nombreaux, descraux, cotactaux, scoreaux, logoaux, arbolnuevo}
+				tiendaaux := tienda.Store{nombreaux, descraux, cotactaux, scoreaux, logoaux, arbolnuevo, &arbolaux64}
 				if scoreaux == 1 {
 					lista1.Add(tiendaaux)
 
@@ -163,7 +168,7 @@ func busquedaPosicionLinealizada(w http.ResponseWriter, r *http.Request) {
 	var sliceTiendas []tienda.Store
 
 	for a != nil {
-		tienda := tienda.Store{a.Store.Name, a.Store.Description, a.Store.Contact, a.Store.Score, a.Store.Logo, a.Store.Productos}
+		tienda := tienda.Store{a.Store.Name, a.Store.Description, a.Store.Contact, a.Store.Score, a.Store.Logo, a.Store.Productos, a.Store.Arbol64}
 		sliceTiendas = append(sliceTiendas, tienda)
 		a = a.Next
 	}
@@ -272,7 +277,20 @@ func graficar(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	fmt.Fprintf(w, "to cool")
+	var sliceTiendas []tienda.Store
+	for i := 0; i < len(linealizar); i++ {
+		listaObtenida := linealizar[i]
+		a := listaObtenida.Frist
+		for a != nil {
+			tienda := tienda.Store{a.Store.Name, a.Store.Description, a.Store.Contact, a.Store.Score, a.Store.Logo, a.Store.Productos, a.Store.Arbol64}
+			sliceTiendas = append(sliceTiendas, tienda)
+			a = a.Next
+		}
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+
+	json.NewEncoder(w).Encode(sliceTiendas)
 	iniciociclo = 0
 	posicionesvector = 0
 }
@@ -393,6 +411,7 @@ func AgregarInventario(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Fprintf(w, "Error al insertar")
 	}
+	(w).Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	json.Unmarshal(reqBody, &arbol_avl.VectorInventario)
@@ -440,24 +459,10 @@ func agregarProductos() {
 		arbol_avl.PreOrden(arbolaux.Root)
 
 		fmt.Println("-----------------------------------------")
-		arbol_avl.Graficararbol(arbolaux.Root, arbol_avl.VectorInventario.Inventarios[x].Tienda+strconv.Itoa(x))
 
+		*linealizar[posicionL].SearchStore(arbol_avl.VectorInventario.Inventarios[x].Tienda).Arbol64 = arbol_avl.Graficararbol(arbolaux.Root, arbol_avl.VectorInventario.Inventarios[x].Tienda+strconv.Itoa(x))
 	}
 
-}
-
-func CargarPedidos(w http.ResponseWriter, r *http.Request) {
-
-	reqBody, err := ioutil.ReadAll(r.Body)
-
-	if err != nil {
-		fmt.Fprintf(w, "Error al insertar")
-	}
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
-	json.Unmarshal(reqBody, &pedidos.VectorPedidos)
-	agregarProductos()
-	json.NewEncoder(w).Encode(pedidos.VectorPedidos)
 }
 
 var calendarioPedidos matrizDispersa.ListaDoble
@@ -541,12 +546,64 @@ func cargarPedidos(w http.ResponseWriter, r *http.Request) {
 			contMes.matris.Graficar(contAño.año + "_" + contMes.mes)
 		}
 	}
+	(w).Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(contenedorPedidos)
+}
+
+var sliceProducots []arbol_avl.Inventario
+func PreOrden(n *arbol_avl.Node) {
+	if n != nil {
+		productoR := arbol_avl.Inventario{n.Data.Nombre, n.Data.Codigo, n.Data.Descripcion, n.Data.Precio, n.Data.Cantidad, n.Data.Imagen}
+		sliceProducots = append(sliceProducots, productoR)
+		fmt.Println(n.Data.Nombre)
+		PreOrden( n.Left)
+		PreOrden(n.Right)
+	}
+}
+
+type StoreReturn struct {
+	Name        string `json:"Nombre"`
+	Description string `json:"Descripcion"`
+	Contact     string `json:"Contacto"`
+	Score       int    `json:"Calificacion"`
+	Logo        string `json:"Logo"`
+	Productos   []arbol_avl.Inventario
+	Raiz   *arbol_avl.Tree
+	Arbol64     *string
+}
+
+func retornarTiendas(w http.ResponseWriter, r *http.Request) {
+
+	var sliceTiendas []StoreReturn
+	for i := 0; i < len(linealizar); i++ {
+		listaObtenida := linealizar[i]
+		a := listaObtenida.Frist
+		for a != nil {
+
+			producto := a.Store.Productos.Root
+
+			PreOrden(producto)
+			fmt.Println(sliceProducots)
+			tienda := StoreReturn{a.Store.Name, a.Store.Description, a.Store.Contact, a.Store.Score, a.Store.Logo, sliceProducots, a.Store.Productos, a.Store.Arbol64}
+			sliceTiendas = append(sliceTiendas, tienda)
+			
+			sliceProducots = nil
+			a = a.Next
+		}
+	}
+
+	(w).Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
+
+	json.NewEncoder(w).Encode(sliceTiendas)
 }
 
 func main() {
 
 	router := mux.NewRouter()
+
+	router.HandleFunc("/tiendascargadas", retornarTiendas).Methods("GET")
 	router.HandleFunc("/", inicial).Methods("GET")
 	router.HandleFunc("/guardar", guardar).Methods("GET")
 	router.HandleFunc("/getArreglo", graficar).Methods("GET")
@@ -556,6 +613,7 @@ func main() {
 	router.HandleFunc("/Eliminar", eliminarTienda).Methods("DELETE")
 	router.HandleFunc("/agregarINV", AgregarInventario).Methods("POST")
 	router.HandleFunc("/cargarPedidos", cargarPedidos).Methods("POST")
+
 	log.Fatal(http.ListenAndServe(":3000", router))
 
 }

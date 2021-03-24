@@ -1,6 +1,8 @@
 package arbol_avl
 
 import (
+	"bufio"
+	"encoding/base64"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -223,8 +225,8 @@ func Graficainterna(arboli *Node) string {
 	return etiqueta
 }
 
-func Graficararbol(nodoraiz *Node, nombre string) {
-	archivo, _ := os.Create(nombre + ".dot")
+func Graficararbol(nodoraiz *Node, nombre string) string {
+	archivo, _ := os.Create("./graficoArboles/" + nombre + ".dot")
 	_, _ = archivo.WriteString("digraph grafico{" + "\n")
 	_, _ = archivo.WriteString("rankdir=UD \n")
 	_, _ = archivo.WriteString("node[shape=box] \n")
@@ -233,9 +235,18 @@ func Graficararbol(nodoraiz *Node, nombre string) {
 	_, _ = archivo.WriteString("}")
 	archivo.Close()
 	path, _ := exec.LookPath("dot")
-	cmd, _ := exec.Command(path, "-Tpdf", "./"+nombre+".dot").Output()
+	cmd, _ := exec.Command(path, "-Tpng", "./graficoArboles/"+nombre+".dot").Output()
 	mode := 0777
-	_ = ioutil.WriteFile(nombre+".pdf", cmd, os.FileMode(mode))
+	_ = ioutil.WriteFile("./graficoArboles/"+nombre+".png", cmd, os.FileMode(mode))
+
+	f, _ := os.Open("./graficoArboles/"+nombre+".png")
+
+	reader := bufio.NewReader(f)
+	content, _ := ioutil.ReadAll(reader)
+
+	encoded := base64.StdEncoding.EncodeToString(content)
+
+	return encoded
 }
 
 var Datobuscado Inventario

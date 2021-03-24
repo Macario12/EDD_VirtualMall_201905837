@@ -9,6 +9,7 @@ type Store struct {
 	Score       int    `json:"Calificacion"`
 	Logo        string `json:"Logo"`
 	Productos   *arbol_avl.Tree
+	Arbol64     *string
 }
 
 func (n *Store) SetName(Name string) {

@@ -1,0 +1,32 @@
+    p {
+    color: gray;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    }
+    .example-card {
+        
+    max-width: 400px;
+    margin: 10px
+    }
+
+    a
+h1{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 100px;
+}
+    
+    mat-card-subtitle{
+    color:black;
+    font-size:18px
+    }
+    
+    mat-card-title{
+    font-size:40px
+    }
+
+    .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+      }
