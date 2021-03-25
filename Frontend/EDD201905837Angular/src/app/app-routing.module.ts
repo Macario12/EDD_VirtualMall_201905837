@@ -4,6 +4,7 @@ import { CarritoDeComprasComponent } from './carrito-de-compras/carrito-de-compr
 import { HomeComponent } from './home/home.component';
 import {ProductosViewComponent} from './productos-view/productos-view.component'
 import { DialogComponent } from './dialog/dialog.component'
+import { CalendarioComponent } from './calendario/calendario.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path: 'productoDetalles',
     component: DialogComponent,
+  },
+  {
+    path: 'calendario',
+    component: CalendarioComponent,
   },
   {
     path: '',

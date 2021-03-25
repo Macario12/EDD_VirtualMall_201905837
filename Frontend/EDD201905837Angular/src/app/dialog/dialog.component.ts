@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductosService } from '../services/productos.service';
 import {Producto } from '../models/producto.model'
-
+import { ProductoC } from  '../models/productoCom.model';
 @Component({
   selector: 'app-dialog',
   templateUrl: './dialog.component.html',
@@ -24,7 +24,6 @@ export class DialogComponent implements OnInit {
   AgregaraCarrito(productoAcarrito: Producto){
     this.validarCantidad()
     if(this.status == false){
-      
       this.producotDetalle.Cantidad = this.cantidadElegida
       this._productosService.carritoCompras.push(productoAcarrito)
       console.log(this._productosService.carritoCompras)

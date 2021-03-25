@@ -6,6 +6,5 @@ export class Producto{
         public Precio:number,
         public Cantidad:number,
         public Imagen:string,
-        public Raiz: any
     ){}
 }

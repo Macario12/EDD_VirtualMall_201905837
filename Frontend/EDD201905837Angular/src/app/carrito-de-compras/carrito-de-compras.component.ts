@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductosService } from '../services/productos.service';
 import {Producto } from '../models/producto.model'
+import { ProductoC } from '../models/productoCom.model';
 
 @Component({
   selector: 'app-carrito-de-compras',
@@ -10,6 +11,7 @@ import {Producto } from '../models/producto.model'
 export class CarritoDeComprasComponent implements OnInit {
   public ACarrito
   public _total: number
+  public product: ProductoC
   constructor(public _productosService: ProductosService) {
     
     this.ACarrito = this._productosService.carritoCompras
@@ -32,5 +34,9 @@ export class CarritoDeComprasComponent implements OnInit {
      var i = this._productosService.carritoCompras.indexOf(productoEliminar)
      i !== -1 && this._productosService.carritoCompras.splice(i,1);
      this.ngOnInit()
+  }
+
+  actualizarStock(){
+    console.log(this._productosService.carritoCompras)
   }
 }

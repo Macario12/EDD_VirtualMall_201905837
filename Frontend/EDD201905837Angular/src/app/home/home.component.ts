@@ -5,6 +5,7 @@ import { Producto } from '../models/producto.model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TiendasService } from '../services/tiendas.service';
 import { ProductosService } from '../services/productos.service';
+import { PedidosService } from '../services/pedidos.service';
 
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
@@ -26,7 +27,7 @@ export class HomeComponent implements OnInit {
 
   
   constructor(private _tiendasService: TiendasService, private _productosService: ProductosService, public dialogM: MatDialog
-    ,private sanitizer: DomSanitizer) { }
+    ,private sanitizer: DomSanitizer, private _PedidosService: PedidosService) { }
 
   ngOnInit(): void {
     this.getStore();
@@ -104,10 +105,37 @@ export class HomeComponent implements OnInit {
     this.imageSource = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${imagen}`);
    }
 
-   verProductos(productos: Producto[]){
+   verProductos(productos: Producto[], riaz: any){
 
       this._productosService.productosR = productos
+      this._productosService.riaz = riaz
       console.log(productos)
+      console.log(riaz)
+   }
+
+
+   onFileSelectedPedido(event: any) {
+    if(event.target.files.length > 0) 
+     {
+       console.log(event.target.files[0])
+       this.selectedFle = event.target.files[0];
+       this.nombre = this.selectedFle.name
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const text = reader.result!.toString().trim();
+        console.log(text)
+          this._PedidosService.postPedidos(text).subscribe(
+          Response => {
+            console.log(Response)
+            
+          }
+       )
+       
+        
+      }
+      reader.readAsText(this.selectedFle);
+     }
    }
 }
 

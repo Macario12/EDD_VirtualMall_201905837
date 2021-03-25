@@ -10,7 +10,7 @@
     Agregar Inventario
   </button>
   
-  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalPedidos">
     Agregar Pedidos
   </button>
 </div>
@@ -59,6 +59,27 @@
   </div>
 </div>
 
+<!-- Modal Insertar Pedidos -->
+<div class="modal fade" id="modalPedidos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title" id="exampleModalLabel" style="color: crimson;">Agregar Pedidos</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+        <div class="mb-3">
+          <input class="form-control" type="file" id="formFile" name = "currentInput" accept=".json" (change)="onFileSelectedPedido($event)">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" (click)="getStore()" data-bs-dismiss="modal">Agregar</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Modal visualizar Arbol  -->
 <div class="modal fade" id="modalArbol" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -110,7 +131,7 @@
             </p>
           </mat-card-content>
           <mat-card-actions>
-            <button  mat-stroked-button color="accent" (click)="verProductos(Tienda.Productos)" routerLink='/inventario'>Visitar Tienda</button>
+            <button  mat-stroked-button color="accent" (click)="verProductos(Tienda.Productos, Tienda.Raiz)" routerLink='/inventario'>Visitar Tienda</button>
             
             <button  mat-stroked-button color="primary" data-bs-toggle="modal" data-bs-target="#modalArbol"  (click)="verArbolModal(Tienda.Arbol64)">Ver arbol</button>
             <br>
@@ -137,6 +158,16 @@
     myInput.focus()
   })
   </script>
+
+<script>
+  var myModal = document.getElementById('modalPedidos')
+  var myInput = document.getElementById('myInput')
+
+  myModal.addEventListener('shown.bs.modal', function () {
+    myInput.focus()
+  })
+  </script>
+
 
 <script>
   var myModal = document.getElementById('modalArbol')

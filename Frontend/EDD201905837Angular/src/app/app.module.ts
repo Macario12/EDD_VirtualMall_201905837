@@ -1,11 +1,20 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+//Calendario
+import { CommonModule } from '@angular/common';
+
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+
+
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
-
+//Angular Material
 import {A11yModule} from '@angular/cdk/a11y';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {DragDropModule} from '@angular/cdk/drag-drop';
@@ -58,6 +67,8 @@ import { TiendasService } from './services/tiendas.service';
 import { DialogComponent } from './dialog/dialog.component'
 import { ProductosService } from './services/productos.service';
 import { ProductosViewComponent } from './productos-view/productos-view.component';
+import { CalendarioComponent } from './calendario/calendario.component';
+import { PedidosService } from './services/pedidos.service';
 
 @NgModule({
   declarations: [
@@ -65,10 +76,18 @@ import { ProductosViewComponent } from './productos-view/productos-view.componen
     HomeComponent,
     CarritoDeComprasComponent,
     DialogComponent,
-    ProductosViewComponent
+    ProductosViewComponent,
+    CalendarioComponent
   ],
   imports: [
+    CommonModule,
     FormsModule,
+    NgbModalModule,
+    FlatpickrModule.forRoot(),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
     HttpClientModule,
     AppRoutingModule,
     BrowserModule,
@@ -120,7 +139,8 @@ import { ProductosViewComponent } from './productos-view/productos-view.componen
   ],
   providers: [
     TiendasService,
-    ProductosService
+    ProductosService,
+    PedidosService
   ],
   bootstrap: [AppComponent]
 })
