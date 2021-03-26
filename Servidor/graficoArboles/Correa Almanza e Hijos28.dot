@@ -1,0 +1,40 @@
+digraph grafico{
+rankdir=UD 
+node[shape=box] 
+concentrate=true 
+nodo313[ shape=record, label ="313"];
+nodo307[ shape=record, label ="307"];
+nodo303[ shape=record, label ="303"];
+nodo301[ shape=record, label ="301"];
+nodo300[ shape=record, label ="300"];
+nodo301->nodo300
+nodo302[ shape=record, label ="302"];
+nodo301->nodo302
+nodo303->nodo301
+nodo305[ shape=record, label ="305"];
+nodo304[ shape=record, label ="304"];
+nodo305->nodo304
+nodo306[ shape=record, label ="306"];
+nodo305->nodo306
+nodo303->nodo305
+nodo307->nodo303
+nodo309[ shape=record, label ="309"];
+nodo308[ shape=record, label ="308"];
+nodo309->nodo308
+nodo311[ shape=record, label ="311"];
+nodo310[ shape=record, label ="310"];
+nodo311->nodo310
+nodo312[ shape=record, label ="312"];
+nodo311->nodo312
+nodo309->nodo311
+nodo307->nodo309
+nodo313->nodo307
+nodo316[ shape=record, label ="316"];
+nodo315[ shape=record, label ="315"];
+nodo314[ shape=record, label ="314"];
+nodo315->nodo314
+nodo316->nodo315
+nodo317[ shape=record, label ="317"];
+nodo316->nodo317
+nodo313->nodo316
+}

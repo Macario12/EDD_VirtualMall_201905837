@@ -1,0 +1,58 @@
+digraph grafico{
+rankdir=UD 
+node[shape=box] 
+concentrate=true 
+nodo268[ shape=record, label ="268"];
+nodo259[ shape=record, label ="259"];
+nodo255[ shape=record, label ="255"];
+nodo254[ shape=record, label ="254"];
+nodo255->nodo254
+nodo257[ shape=record, label ="257"];
+nodo256[ shape=record, label ="256"];
+nodo257->nodo256
+nodo258[ shape=record, label ="258"];
+nodo257->nodo258
+nodo255->nodo257
+nodo259->nodo255
+nodo264[ shape=record, label ="264"];
+nodo262[ shape=record, label ="262"];
+nodo260[ shape=record, label ="260"];
+nodo261[ shape=record, label ="261"];
+nodo260->nodo261
+nodo262->nodo260
+nodo263[ shape=record, label ="263"];
+nodo262->nodo263
+nodo264->nodo262
+nodo266[ shape=record, label ="266"];
+nodo265[ shape=record, label ="265"];
+nodo266->nodo265
+nodo267[ shape=record, label ="267"];
+nodo266->nodo267
+nodo264->nodo266
+nodo259->nodo264
+nodo268->nodo259
+nodo276[ shape=record, label ="276"];
+nodo271[ shape=record, label ="271"];
+nodo270[ shape=record, label ="270"];
+nodo269[ shape=record, label ="269"];
+nodo270->nodo269
+nodo271->nodo270
+nodo273[ shape=record, label ="273"];
+nodo272[ shape=record, label ="272"];
+nodo273->nodo272
+nodo275[ shape=record, label ="275"];
+nodo274[ shape=record, label ="274"];
+nodo275->nodo274
+nodo273->nodo275
+nodo271->nodo273
+nodo276->nodo271
+nodo278[ shape=record, label ="278"];
+nodo277[ shape=record, label ="277"];
+nodo278->nodo277
+nodo279[ shape=record, label ="279"];
+nodo280[ shape=record, label ="280"];
+nodo279->nodo280
+nodo278->nodo279
+nodo276->nodo278
+nodo268->nodo276
+}

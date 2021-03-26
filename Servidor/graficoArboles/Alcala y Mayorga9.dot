@@ -1,0 +1,30 @@
+digraph grafico{
+rankdir=UD 
+node[shape=box] 
+concentrate=true 
+nodo303[ shape=record, label ="303"];
+nodo301[ shape=record, label ="301"];
+nodo300[ shape=record, label ="300"];
+nodo299[ shape=record, label ="299"];
+nodo300->nodo299
+nodo301->nodo300
+nodo302[ shape=record, label ="302"];
+nodo301->nodo302
+nodo303->nodo301
+nodo308[ shape=record, label ="308"];
+nodo305[ shape=record, label ="305"];
+nodo304[ shape=record, label ="304"];
+nodo305->nodo304
+nodo307[ shape=record, label ="307"];
+nodo306[ shape=record, label ="306"];
+nodo307->nodo306
+nodo305->nodo307
+nodo308->nodo305
+nodo310[ shape=record, label ="310"];
+nodo309[ shape=record, label ="309"];
+nodo310->nodo309
+nodo311[ shape=record, label ="311"];
+nodo310->nodo311
+nodo308->nodo310
+nodo303->nodo308
+}

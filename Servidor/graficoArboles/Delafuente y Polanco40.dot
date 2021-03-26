@@ -1,0 +1,50 @@
+digraph grafico{
+rankdir=UD 
+node[shape=box] 
+concentrate=true 
+nodo591[ shape=record, label ="591"];
+nodo588[ shape=record, label ="588"];
+nodo584[ shape=record, label ="584"];
+nodo583[ shape=record, label ="583"];
+nodo584->nodo583
+nodo586[ shape=record, label ="586"];
+nodo585[ shape=record, label ="585"];
+nodo586->nodo585
+nodo587[ shape=record, label ="587"];
+nodo586->nodo587
+nodo584->nodo586
+nodo588->nodo584
+nodo589[ shape=record, label ="589"];
+nodo590[ shape=record, label ="590"];
+nodo589->nodo590
+nodo588->nodo589
+nodo591->nodo588
+nodo596[ shape=record, label ="596"];
+nodo593[ shape=record, label ="593"];
+nodo592[ shape=record, label ="592"];
+nodo593->nodo592
+nodo594[ shape=record, label ="594"];
+nodo595[ shape=record, label ="595"];
+nodo594->nodo595
+nodo593->nodo594
+nodo596->nodo593
+nodo600[ shape=record, label ="600"];
+nodo598[ shape=record, label ="598"];
+nodo597[ shape=record, label ="597"];
+nodo598->nodo597
+nodo599[ shape=record, label ="599"];
+nodo598->nodo599
+nodo600->nodo598
+nodo604[ shape=record, label ="604"];
+nodo602[ shape=record, label ="602"];
+nodo601[ shape=record, label ="601"];
+nodo602->nodo601
+nodo603[ shape=record, label ="603"];
+nodo602->nodo603
+nodo604->nodo602
+nodo605[ shape=record, label ="605"];
+nodo604->nodo605
+nodo600->nodo604
+nodo596->nodo600
+nodo591->nodo596
+}

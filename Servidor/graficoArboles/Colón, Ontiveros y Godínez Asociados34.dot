@@ -1,0 +1,70 @@
+digraph grafico{
+rankdir=UD 
+node[shape=box] 
+concentrate=true 
+nodo936[ shape=record, label ="936"];
+nodo930[ shape=record, label ="930"];
+nodo925[ shape=record, label ="925"];
+nodo923[ shape=record, label ="923"];
+nodo922[ shape=record, label ="922"];
+nodo923->nodo922
+nodo924[ shape=record, label ="924"];
+nodo923->nodo924
+nodo925->nodo923
+nodo928[ shape=record, label ="928"];
+nodo927[ shape=record, label ="927"];
+nodo926[ shape=record, label ="926"];
+nodo927->nodo926
+nodo928->nodo927
+nodo929[ shape=record, label ="929"];
+nodo928->nodo929
+nodo925->nodo928
+nodo930->nodo925
+nodo934[ shape=record, label ="934"];
+nodo932[ shape=record, label ="932"];
+nodo931[ shape=record, label ="931"];
+nodo932->nodo931
+nodo933[ shape=record, label ="933"];
+nodo932->nodo933
+nodo934->nodo932
+nodo935[ shape=record, label ="935"];
+nodo934->nodo935
+nodo930->nodo934
+nodo936->nodo930
+nodo947[ shape=record, label ="947"];
+nodo943[ shape=record, label ="943"];
+nodo939[ shape=record, label ="939"];
+nodo937[ shape=record, label ="937"];
+nodo938[ shape=record, label ="938"];
+nodo937->nodo938
+nodo939->nodo937
+nodo941[ shape=record, label ="941"];
+nodo940[ shape=record, label ="940"];
+nodo941->nodo940
+nodo942[ shape=record, label ="942"];
+nodo941->nodo942
+nodo939->nodo941
+nodo943->nodo939
+nodo945[ shape=record, label ="945"];
+nodo944[ shape=record, label ="944"];
+nodo945->nodo944
+nodo946[ shape=record, label ="946"];
+nodo945->nodo946
+nodo943->nodo945
+nodo947->nodo943
+nodo950[ shape=record, label ="950"];
+nodo948[ shape=record, label ="948"];
+nodo949[ shape=record, label ="949"];
+nodo948->nodo949
+nodo950->nodo948
+nodo952[ shape=record, label ="952"];
+nodo951[ shape=record, label ="951"];
+nodo952->nodo951
+nodo954[ shape=record, label ="954"];
+nodo953[ shape=record, label ="953"];
+nodo954->nodo953
+nodo952->nodo954
+nodo950->nodo952
+nodo947->nodo950
+nodo936->nodo947
+}

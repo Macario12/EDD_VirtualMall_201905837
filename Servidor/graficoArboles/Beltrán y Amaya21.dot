@@ -1,0 +1,72 @@
+digraph grafico{
+rankdir=UD 
+node[shape=box] 
+concentrate=true 
+nodo32[ shape=record, label ="32"];
+nodo20[ shape=record, label ="20"];
+nodo15[ shape=record, label ="15"];
+nodo13[ shape=record, label ="13"];
+nodo14[ shape=record, label ="14"];
+nodo13->nodo14
+nodo15->nodo13
+nodo18[ shape=record, label ="18"];
+nodo17[ shape=record, label ="17"];
+nodo16[ shape=record, label ="16"];
+nodo17->nodo16
+nodo18->nodo17
+nodo19[ shape=record, label ="19"];
+nodo18->nodo19
+nodo15->nodo18
+nodo20->nodo15
+nodo25[ shape=record, label ="25"];
+nodo22[ shape=record, label ="22"];
+nodo21[ shape=record, label ="21"];
+nodo22->nodo21
+nodo23[ shape=record, label ="23"];
+nodo24[ shape=record, label ="24"];
+nodo23->nodo24
+nodo22->nodo23
+nodo25->nodo22
+nodo29[ shape=record, label ="29"];
+nodo27[ shape=record, label ="27"];
+nodo26[ shape=record, label ="26"];
+nodo27->nodo26
+nodo28[ shape=record, label ="28"];
+nodo27->nodo28
+nodo29->nodo27
+nodo30[ shape=record, label ="30"];
+nodo31[ shape=record, label ="31"];
+nodo30->nodo31
+nodo29->nodo30
+nodo25->nodo29
+nodo20->nodo25
+nodo32->nodo20
+nodo40[ shape=record, label ="40"];
+nodo36[ shape=record, label ="36"];
+nodo34[ shape=record, label ="34"];
+nodo33[ shape=record, label ="33"];
+nodo34->nodo33
+nodo35[ shape=record, label ="35"];
+nodo34->nodo35
+nodo36->nodo34
+nodo38[ shape=record, label ="38"];
+nodo37[ shape=record, label ="37"];
+nodo38->nodo37
+nodo39[ shape=record, label ="39"];
+nodo38->nodo39
+nodo36->nodo38
+nodo40->nodo36
+nodo44[ shape=record, label ="44"];
+nodo42[ shape=record, label ="42"];
+nodo41[ shape=record, label ="41"];
+nodo42->nodo41
+nodo43[ shape=record, label ="43"];
+nodo42->nodo43
+nodo44->nodo42
+nodo46[ shape=record, label ="46"];
+nodo45[ shape=record, label ="45"];
+nodo46->nodo45
+nodo44->nodo46
+nodo40->nodo44
+nodo32->nodo40
+}

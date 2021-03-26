@@ -1,0 +1,68 @@
+digraph grafico{
+rankdir=UD 
+node[shape=box] 
+concentrate=true 
+nodo324[ shape=record, label ="324"];
+nodo315[ shape=record, label ="315"];
+nodo311[ shape=record, label ="311"];
+nodo310[ shape=record, label ="310"];
+nodo311->nodo310
+nodo313[ shape=record, label ="313"];
+nodo312[ shape=record, label ="312"];
+nodo313->nodo312
+nodo314[ shape=record, label ="314"];
+nodo313->nodo314
+nodo311->nodo313
+nodo315->nodo311
+nodo319[ shape=record, label ="319"];
+nodo317[ shape=record, label ="317"];
+nodo316[ shape=record, label ="316"];
+nodo317->nodo316
+nodo318[ shape=record, label ="318"];
+nodo317->nodo318
+nodo319->nodo317
+nodo322[ shape=record, label ="322"];
+nodo320[ shape=record, label ="320"];
+nodo321[ shape=record, label ="321"];
+nodo320->nodo321
+nodo322->nodo320
+nodo323[ shape=record, label ="323"];
+nodo322->nodo323
+nodo319->nodo322
+nodo315->nodo319
+nodo324->nodo315
+nodo333[ shape=record, label ="333"];
+nodo330[ shape=record, label ="330"];
+nodo328[ shape=record, label ="328"];
+nodo326[ shape=record, label ="326"];
+nodo325[ shape=record, label ="325"];
+nodo326->nodo325
+nodo327[ shape=record, label ="327"];
+nodo326->nodo327
+nodo328->nodo326
+nodo329[ shape=record, label ="329"];
+nodo328->nodo329
+nodo330->nodo328
+nodo331[ shape=record, label ="331"];
+nodo332[ shape=record, label ="332"];
+nodo331->nodo332
+nodo330->nodo331
+nodo333->nodo330
+nodo336[ shape=record, label ="336"];
+nodo335[ shape=record, label ="335"];
+nodo334[ shape=record, label ="334"];
+nodo335->nodo334
+nodo336->nodo335
+nodo340[ shape=record, label ="340"];
+nodo338[ shape=record, label ="338"];
+nodo337[ shape=record, label ="337"];
+nodo338->nodo337
+nodo339[ shape=record, label ="339"];
+nodo338->nodo339
+nodo340->nodo338
+nodo341[ shape=record, label ="341"];
+nodo340->nodo341
+nodo336->nodo340
+nodo333->nodo336
+nodo324->nodo333
+}

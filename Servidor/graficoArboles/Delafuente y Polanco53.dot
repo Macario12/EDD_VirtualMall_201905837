@@ -1,0 +1,6 @@
+digraph grafico{
+rankdir=UD 
+node[shape=box] 
+concentrate=true 
+nodo873[ shape=record, label ="873"];
+}

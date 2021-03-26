@@ -1,6 +1,8 @@
 package matrizDispersa
 
 import (
+	"bufio"
+	"encoding/base64"
 	"io/ioutil"
 	"os"
 	"os/exec"
@@ -366,9 +368,10 @@ func (m *MatrisDispersa) Insertar(pedido pedidos.Pedido, Departamento string, Di
 // _________________________________ Graficar __________________________________
 
 //Graficar
-func (m *MatrisDispersa) Graficar(nombre string) {
+func (m *MatrisDispersa) Graficar(nombre string) string  {
+	var encoded string
 	if m.CabezeraColumnas == nil || m.CabezeraFilas == nil {
-		return
+		return encoded
 	}
 	texto := "digraph { \n"
 	texto += "rankdir = TB; \n"
@@ -382,7 +385,15 @@ func (m *MatrisDispersa) Graficar(nombre string) {
 	texto += m.establecerNivelFilas()
 	texto += "}"
 	_ = ioutil.WriteFile(nombre+".dot", []byte(texto), 0644)
-	cmd := exec.Command("dot", "-Tjpg", nombre+".dot", "-o", "./pedidos/"+nombre+".jpg")
+	cmd := exec.Command("dot", "-Tpng", nombre+".dot", "-o", "./pedidos/"+nombre+".png")
 	_ = cmd.Run()
-	_ = os.Remove(nombre + ".dot")
+	f, _ := os.Open("./pedidos/" + nombre + ".png")
+
+	reader := bufio.NewReader(f)
+	content, _ := ioutil.ReadAll(reader)
+
+	encoded = base64.StdEncoding.EncodeToString(content)
+
+	return encoded
+
 }

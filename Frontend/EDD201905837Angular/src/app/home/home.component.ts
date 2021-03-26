@@ -24,7 +24,8 @@ export class HomeComponent implements OnInit {
   selectedFle
   nombre
   imageSource;
-
+ Fecha;
+  imageSource1;
   
   constructor(private _tiendasService: TiendasService, private _productosService: ProductosService, public dialogM: MatDialog
     ,private sanitizer: DomSanitizer, private _PedidosService: PedidosService) { }
@@ -52,6 +53,7 @@ export class HomeComponent implements OnInit {
       const reader = new FileReader();
       reader.onload = (e) => {
         const text = reader.result!.toString().trim();
+        console.log("hey")
         console.log(text)
         this._tiendasService.postTiendas(text).subscribe(
          Response => {
@@ -103,6 +105,11 @@ export class HomeComponent implements OnInit {
    
    verArbolModal(imagen: string){
     this.imageSource = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${imagen}`);
+   }
+
+   verMatrizModal(imagen: string, fecha: string){
+     this.Fecha = fecha
+    this.imageSource1 = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${imagen}`);
    }
 
    verProductos(productos: Producto[], riaz: any){

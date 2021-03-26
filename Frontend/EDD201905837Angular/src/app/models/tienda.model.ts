@@ -8,7 +8,9 @@ export class Tienda{
         public Logo:string,
         public Productos: Producto[],
         public Arbol64: string,
-        public Raiz: any
+        public Raiz: any,
+        public Pedidos64: string,
+        public Fecha: string
         
     ){}
 }

@@ -100,8 +100,10 @@ func linealizarMatriz() {
 
 				arbolnuevo := arbol_avl.Newtree()
 				arbolaux64 := "soy el imagen Base 64"
+				pedidoaux := "Hola soy la img en 64"
+				fechaaux := "-"
 				fmt.Println(&arbolnuevo)
-				tiendaaux := tienda.Store{nombreaux, descraux, cotactaux, scoreaux, logoaux, arbolnuevo, &arbolaux64}
+				tiendaaux := tienda.Store{nombreaux, descraux, cotactaux, scoreaux, logoaux, arbolnuevo, &arbolaux64, &pedidoaux, &fechaaux}
 				if scoreaux == 1 {
 					lista1.Add(tiendaaux)
 
@@ -168,7 +170,7 @@ func busquedaPosicionLinealizada(w http.ResponseWriter, r *http.Request) {
 	var sliceTiendas []tienda.Store
 
 	for a != nil {
-		tienda := tienda.Store{a.Store.Name, a.Store.Description, a.Store.Contact, a.Store.Score, a.Store.Logo, a.Store.Productos, a.Store.Arbol64}
+		tienda := tienda.Store{a.Store.Name, a.Store.Description, a.Store.Contact, a.Store.Score, a.Store.Logo, a.Store.Productos, a.Store.Arbol64, a.Store.Pedidos64,a.Store.Fecha}
 		sliceTiendas = append(sliceTiendas, tienda)
 		a = a.Next
 	}
@@ -282,7 +284,7 @@ func graficar(w http.ResponseWriter, r *http.Request) {
 		listaObtenida := linealizar[i]
 		a := listaObtenida.Frist
 		for a != nil {
-			tienda := tienda.Store{a.Store.Name, a.Store.Description, a.Store.Contact, a.Store.Score, a.Store.Logo, a.Store.Productos, a.Store.Arbol64}
+			tienda := tienda.Store{a.Store.Name, a.Store.Description, a.Store.Contact, a.Store.Score, a.Store.Logo, a.Store.Productos, a.Store.Arbol64,  a.Store.Pedidos64, a.Store.Fecha}
 			sliceTiendas = append(sliceTiendas, tienda)
 			a = a.Next
 		}
@@ -539,13 +541,36 @@ func cargarPedidos(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	for i := 0; i < calendarioPedidos.GetLen(); i++ {
+
+	for x := 0; x < len(contenedorPedidos.PedidosPr); x++ {
+		indice := string(contenedorPedidos.PedidosPr[x].Tienda[0])
+
+		var posicionL int
+		var posi, posj int
+		for i := 0; i < len(indicesfor); i++ {
+			if indice == (indicesfor[i]) {
+				posi = i
+			}
+		}
+		for j := 0; j < len(depa); j++ {
+			if contenedorPedidos.PedidosPr[x].Departamento == (depa[j]) {
+				posj = j
+			}
+		}
+		posicionL = ((posi*len(depa))+posj)*5 + (contenedorPedidos.PedidosPr[x].Calificacion - 1)
+		*linealizar[posicionL].SearchStore(contenedorPedidos.PedidosPr[x].Tienda).Fecha = contenedorPedidos.PedidosPr[x].Fecha
+		fmt.Println(posicionL)
+		for i := 0; i < calendarioPedidos.GetLen(); i++ {
 		contAño := calendarioPedidos.Obtener(i).(ContenedorAño)
 		for a := 0; a < contAño.meses.GetLen(); a++ {
 			contMes := contAño.meses.Obtener(a).(ContenedorMes)
-			contMes.matris.Graficar(contAño.año + "_" + contMes.mes)
-		}
+			*linealizar[posicionL].SearchStore(contenedorPedidos.PedidosPr[x].Tienda).Pedidos64 = contMes.matris.Graficar(contAño.año + "_" + contMes.mes)
+			}
+		}	
+		
 	}
+	
+	
 	(w).Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(contenedorPedidos)
@@ -571,6 +596,8 @@ type StoreReturn struct {
 	Productos   []arbol_avl.Inventario
 	Raiz   *arbol_avl.Tree
 	Arbol64     *string
+	Pedidos64   *string
+	Fecha *string
 }
 
 func retornarTiendas(w http.ResponseWriter, r *http.Request) {
@@ -585,7 +612,7 @@ func retornarTiendas(w http.ResponseWriter, r *http.Request) {
 
 			PreOrden(producto)
 			fmt.Println(sliceProducots)
-			tienda := StoreReturn{a.Store.Name, a.Store.Description, a.Store.Contact, a.Store.Score, a.Store.Logo, sliceProducots, a.Store.Productos, a.Store.Arbol64}
+			tienda := StoreReturn{a.Store.Name, a.Store.Description, a.Store.Contact, a.Store.Score, a.Store.Logo, sliceProducots, a.Store.Productos, a.Store.Arbol64, a.Store.Pedidos64,a.Store.Fecha}
 			sliceTiendas = append(sliceTiendas, tienda)
 			
 			sliceProducots = nil

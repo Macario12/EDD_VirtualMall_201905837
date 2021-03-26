@@ -1,0 +1,8 @@
+digraph grafico{
+rankdir=UD 
+node[shape=box] 
+concentrate=true 
+nodo85[ shape=record, label ="85"];
+nodo86[ shape=record, label ="86"];
+nodo85->nodo86
+}

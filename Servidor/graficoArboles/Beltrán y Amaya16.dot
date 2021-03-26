@@ -1,0 +1,98 @@
+digraph grafico{
+rankdir=UD 
+node[shape=box] 
+concentrate=true 
+nodo450[ shape=record, label ="450"];
+nodo440[ shape=record, label ="440"];
+nodo436[ shape=record, label ="436"];
+nodo432[ shape=record, label ="432"];
+nodo431[ shape=record, label ="431"];
+nodo430[ shape=record, label ="430"];
+nodo431->nodo430
+nodo432->nodo431
+nodo434[ shape=record, label ="434"];
+nodo433[ shape=record, label ="433"];
+nodo434->nodo433
+nodo435[ shape=record, label ="435"];
+nodo434->nodo435
+nodo432->nodo434
+nodo436->nodo432
+nodo438[ shape=record, label ="438"];
+nodo437[ shape=record, label ="437"];
+nodo438->nodo437
+nodo439[ shape=record, label ="439"];
+nodo438->nodo439
+nodo436->nodo438
+nodo440->nodo436
+nodo445[ shape=record, label ="445"];
+nodo443[ shape=record, label ="443"];
+nodo441[ shape=record, label ="441"];
+nodo442[ shape=record, label ="442"];
+nodo441->nodo442
+nodo443->nodo441
+nodo444[ shape=record, label ="444"];
+nodo443->nodo444
+nodo445->nodo443
+nodo447[ shape=record, label ="447"];
+nodo446[ shape=record, label ="446"];
+nodo447->nodo446
+nodo448[ shape=record, label ="448"];
+nodo449[ shape=record, label ="449"];
+nodo448->nodo449
+nodo447->nodo448
+nodo445->nodo447
+nodo440->nodo445
+nodo450->nodo440
+nodo461[ shape=record, label ="461"];
+nodo456[ shape=record, label ="456"];
+nodo453[ shape=record, label ="453"];
+nodo451[ shape=record, label ="451"];
+nodo452[ shape=record, label ="452"];
+nodo451->nodo452
+nodo453->nodo451
+nodo454[ shape=record, label ="454"];
+nodo455[ shape=record, label ="455"];
+nodo454->nodo455
+nodo453->nodo454
+nodo456->nodo453
+nodo459[ shape=record, label ="459"];
+nodo457[ shape=record, label ="457"];
+nodo458[ shape=record, label ="458"];
+nodo457->nodo458
+nodo459->nodo457
+nodo460[ shape=record, label ="460"];
+nodo459->nodo460
+nodo456->nodo459
+nodo461->nodo456
+nodo466[ shape=record, label ="466"];
+nodo463[ shape=record, label ="463"];
+nodo462[ shape=record, label ="462"];
+nodo463->nodo462
+nodo464[ shape=record, label ="464"];
+nodo465[ shape=record, label ="465"];
+nodo464->nodo465
+nodo463->nodo464
+nodo466->nodo463
+nodo472[ shape=record, label ="472"];
+nodo470[ shape=record, label ="470"];
+nodo468[ shape=record, label ="468"];
+nodo467[ shape=record, label ="467"];
+nodo468->nodo467
+nodo469[ shape=record, label ="469"];
+nodo468->nodo469
+nodo470->nodo468
+nodo471[ shape=record, label ="471"];
+nodo470->nodo471
+nodo472->nodo470
+nodo474[ shape=record, label ="474"];
+nodo473[ shape=record, label ="473"];
+nodo474->nodo473
+nodo475[ shape=record, label ="475"];
+nodo476[ shape=record, label ="476"];
+nodo475->nodo476
+nodo474->nodo475
+nodo472->nodo474
+nodo466->nodo472
+nodo461->nodo466
+nodo450->nodo461
+}

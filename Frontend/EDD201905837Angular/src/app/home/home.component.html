@@ -13,6 +13,7 @@
   <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalPedidos">
     Agregar Pedidos
   </button>
+  
 </div>
 
 <!-- Modal Insertar Tiendas-->
@@ -101,6 +102,25 @@
   </div>
 </div>
 
+<!-- Modal visualizar Pedidos  -->
+<div class="modal fade" id="modalMatriz" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title" id="exampleModalLabel" style="color: crimson;">Matriz de Pedidos Fecha: {{Fecha}} </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+        <img [src]="imageSource1" alt="Image Source" class="center">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+       
+      </div>
+    </div>
+  </div>
+</div>
 
 <mat-grid-list cols="3" rowHeight="0.6:1">
     <mat-grid-tile *ngFor="let Tienda of Tiendas">  
@@ -134,6 +154,7 @@
             <button  mat-stroked-button color="accent" (click)="verProductos(Tienda.Productos, Tienda.Raiz)" routerLink='/inventario'>Visitar Tienda</button>
             
             <button  mat-stroked-button color="primary" data-bs-toggle="modal" data-bs-target="#modalArbol"  (click)="verArbolModal(Tienda.Arbol64)">Ver arbol</button>
+            <button  mat-stroked-button color="primary" data-bs-toggle="modal" data-bs-target="#modalMatriz "  (click)="verMatrizModal(Tienda.Pedidos64, Tienda.Fecha)">Ver Matriz</button>
             <br>
           </mat-card-actions>
         </mat-card>
@@ -152,6 +173,15 @@
 
 <script>
   var myModal = document.getElementById('exampleModal2')
+  var myInput = document.getElementById('myInput')
+
+  myModal.addEventListener('shown.bs.modal', function () {
+    myInput.focus()
+  })
+  </script>
+
+<script>
+  var myModal = document.getElementById('modalMatriz')
   var myInput = document.getElementById('myInput')
 
   myModal.addEventListener('shown.bs.modal', function () {
