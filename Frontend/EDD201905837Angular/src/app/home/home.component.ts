@@ -8,6 +8,7 @@ import { ProductosService } from '../services/productos.service';
 import { PedidosService } from '../services/pedidos.service';
 
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { UsuariosService } from '../services/usuarios.service';
 
 
 
@@ -21,17 +22,39 @@ export class HomeComponent implements OnInit {
   public Tiendas: Tienda[];
   public currentInput;
   public status:string;
+  public llave: string;
   selectedFle
   nombre
   imageSource;
  Fecha;
   imageSource1;
   
-  constructor(private _tiendasService: TiendasService, private _productosService: ProductosService, public dialogM: MatDialog
-    ,private sanitizer: DomSanitizer, private _PedidosService: PedidosService) { }
+  constructor(private _tiendasService: TiendasService, private _usuariosService: UsuariosService, private _productosService: ProductosService, public dialogM: MatDialog
+    ,private sanitizer: DomSanitizer, private _PedidosService: PedidosService) {
+      this.llave = ""
+     }
 
   ngOnInit(): void {
     this.getStore();
+  }
+
+  validarUsuario(): boolean{
+    if(this._usuariosService.UsuarioA.Cuenta == "Admin"){
+      return true
+    }else{
+      return false
+    }
+  }
+
+  llavenviar(){
+    this._usuariosService.posrtllave(this.llave).subscribe(
+      Response => {
+        
+      console.log(this.llave)
+        console.log(Response)
+        
+      }
+    )
   }
 
   getStore(){
@@ -56,6 +79,31 @@ export class HomeComponent implements OnInit {
         console.log("hey")
         console.log(text)
         this._tiendasService.postTiendas(text).subscribe(
+         Response => {
+           console.log(Response)
+           
+         }
+       )
+       
+        
+      }
+      reader.readAsText(this.selectedFle);
+     }
+   }
+
+   onFileSelectedUsuarios(event: any) {
+    if(event.target.files.length > 0) 
+     {
+       console.log(event.target.files[0])
+      this.selectedFle = event.target.files[0];
+      this.nombre = this.selectedFle.name
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const text = reader.result!.toString().trim();
+        console.log("hey")
+        console.log(text)
+        this._usuariosService.postUsuarios(text).subscribe(
          Response => {
            console.log(Response)
            

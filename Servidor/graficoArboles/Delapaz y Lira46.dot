@@ -1,8 +1,0 @@
-digraph grafico{
-rankdir=UD 
-node[shape=box] 
-concentrate=true 
-nodo267[ shape=record, label ="267"];
-nodo266[ shape=record, label ="266"];
-nodo267->nodo266
-}

@@ -69,6 +69,10 @@ import { ProductosService } from './services/productos.service';
 import { ProductosViewComponent } from './productos-view/productos-view.component';
 import { CalendarioComponent } from './calendario/calendario.component';
 import { PedidosService } from './services/pedidos.service';
+import { RegistroComponent } from './registro/registro.component';
+import { ReportesComponent } from './reportes/reportes.component';
+
+
 
 @NgModule({
   declarations: [
@@ -77,7 +81,9 @@ import { PedidosService } from './services/pedidos.service';
     CarritoDeComprasComponent,
     DialogComponent,
     ProductosViewComponent,
-    CalendarioComponent
+    CalendarioComponent,
+    RegistroComponent,
+    ReportesComponent
   ],
   imports: [
     CommonModule,

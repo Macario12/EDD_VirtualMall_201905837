@@ -71,3 +71,8 @@ func (c *Cola) Imprimir() {
 	texto += "nil"
 	fmt.Println(texto)
 }
+
+
+func ( c *Cola) Graficar(){
+	
+}

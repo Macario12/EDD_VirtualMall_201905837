@@ -1,0 +1,20 @@
+digraph grafico{
+rankdir=UD 
+node[shape=box] 
+concentrate=true 
+nodo844[ shape=record, label ="{Codigo: 844|Nombre: Ergonómico Acero Pescado|Precio: 201|Cantidad: 26}"];
+nodo842[ shape=record, label ="{Codigo: 842|Nombre: Fantástico Cotton Guantes|Precio: 171|Cantidad: 108}"];
+nodo841[ shape=record, label ="{Codigo: 841|Nombre: Genérica Caucho Mesa|Precio: 762|Cantidad: 178}"];
+nodo842->nodo841
+nodo843[ shape=record, label ="{Codigo: 843|Nombre: Increíble Cotton Jabón|Precio: 245|Cantidad: 160}"];
+nodo842->nodo843
+nodo844->nodo842
+nodo846[ shape=record, label ="{Codigo: 846|Nombre: Práctica Caucho Camisa|Precio: 15|Cantidad: 110}"];
+nodo845[ shape=record, label ="{Codigo: 845|Nombre: Licencia Plástico Embutidos|Precio: 665|Cantidad: 313}"];
+nodo846->nodo845
+nodo847[ shape=record, label ="{Codigo: 847|Nombre: Práctica Plástico Pollo|Precio: 162|Cantidad: 313}"];
+nodo848[ shape=record, label ="{Codigo: 848|Nombre: Rústico Acero Queso|Precio: 414|Cantidad: 446}"];
+nodo847->nodo848
+nodo846->nodo847
+nodo844->nodo846
+}

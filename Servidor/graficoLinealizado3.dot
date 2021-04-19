@@ -1,0 +1,41 @@
+digraph grafico{
+compound=true;
+color=orangered
+subgraph cluster0{
+edge[minlen=0.1,color="greenyellow", dir=fordware]
+struct0[shape=record,color=".7 .3 1.0",label="B|Cocina|{1| pos:10}"];
+struct1[shape=record,color=".7 .3 1.0",label="B|Cocina|{2| pos:11}"];
+struct2[shape=record,color=".7 .3 1.0",label="B|Cocina|{3| pos:12}"];
+struct3[shape=record,color=".7 .3 1.0",label="B|Cocina|{4| pos:13}"];
+struct4[shape=record,color=".7 .3 1.0",label="B|Cocina|{5| pos:14}"];
+struct0->struct1
+struct1->struct2
+struct2->struct3
+struct3->struct4
+}
+subgraph cluster10{
+edge[color="steelblue",dir=both]
+}
+subgraph cluster11{
+edge[color="steelblue",dir=both]
+nodo0[shape=record,color="darkturquoise",label="{{1270|Bernal e Hijos}|951 546 306}"];
+}
+struct1-> nodo0 [lhead=cluster1];
+subgraph cluster12{
+edge[color="steelblue",dir=both]
+}
+subgraph cluster13{
+edge[color="steelblue",dir=both]
+nodo1[shape=record,color="darkturquoise",label="{{1940|Benavídez y Salcido}|947.912.294}"];
+}
+struct3-> nodo1 [lhead=cluster3];
+subgraph cluster14{
+edge[color="steelblue",dir=both]
+nodo2[shape=record,color="darkturquoise",label="{{2149|Barraza Roldán e Hijos}|907.802.124}"];
+nodo3[shape=record,color="darkturquoise",label="{{1621|Báez Mota e Hijos}|995 997 240}"];
+nodo4[shape=record,color="darkturquoise",label="{{795|Brito S.L.}|939-438-351}"];
+nodo2->nodo3
+nodo3->nodo4
+}
+struct4-> nodo2 [lhead=cluster4];
+}

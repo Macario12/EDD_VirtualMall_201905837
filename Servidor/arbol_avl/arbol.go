@@ -11,22 +11,24 @@ import (
 )
 
 type Inventario struct {
-	Nombre      string `json:"Nombre"`
-	Codigo      int    `json:"Codigo"`
-	Descripcion string `json:"Descripcion"`
-	Precio      int    `json:"Precio"`
-	Cantidad    int    `json:"Cantidad"`
-	Imagen      string `json:"Imagen"`
+	Nombre         string `json:"Nombre"`
+	Codigo         int    `json:"Codigo"`
+	Descripcion    string `json:"Descripcion"`
+	Precio         int    `json:"Precio"`
+	Cantidad       int    `json:"Cantidad"`
+	Imagen         string `json:"Imagen"`
+	Almacenamiento string `json:"Almacenamiento"`
 }
 
-func NewInventario(nombre string, codigo int, descrip string, precio int, cantidad int, imagen string) *Inventario {
+func NewInventario(nombre string, codigo int, descrip string, precio int, cantidad int, imagen string, almacenamiento string) *Inventario {
 	return &Inventario{
-		Nombre:      nombre,
-		Codigo:      codigo,
-		Descripcion: descrip,
-		Precio:      precio,
-		Cantidad:    cantidad,
-		Imagen:      imagen,
+		Nombre:         nombre,
+		Codigo:         codigo,
+		Descripcion:    descrip,
+		Precio:         precio,
+		Cantidad:       cantidad,
+		Imagen:         imagen,
+		Almacenamiento: almacenamiento,
 	}
 }
 
@@ -210,9 +212,10 @@ func Graficainterna(arboli *Node) string {
 	var etiqueta string
 	if arboli.Left == nil && arboli.Right == nil {
 
-		etiqueta = "nodo" + strconv.Itoa(arboli.Data.Codigo) + "[ shape=record, label =\"" + strconv.Itoa(arboli.Data.Codigo) + "\"];\n"
+		etiqueta = "nodo" + strconv.Itoa(arboli.Data.Codigo) + "[ shape=record, label =\"{" + "Codigo: " + strconv.Itoa(arboli.Data.Codigo) + "|" + "Nombre: " + arboli.Data.Nombre + "|" + "Precio: " + strconv.Itoa(arboli.Data.Precio) + "|" + "Cantidad: " + strconv.Itoa(arboli.Data.Cantidad) + "}\"];\n"
 	} else {
-		etiqueta = "nodo" + strconv.Itoa(arboli.Data.Codigo) + "[ shape=record, label =\"" + strconv.Itoa(arboli.Data.Codigo) + "\"];\n"
+
+		etiqueta = "nodo" + strconv.Itoa(arboli.Data.Codigo) + "[ shape=record, label =\"{" + "Codigo: " + strconv.Itoa(arboli.Data.Codigo) + "|" + "Nombre: " + arboli.Data.Nombre + "|" + "Precio: " + strconv.Itoa(arboli.Data.Precio) + "|" + "Cantidad: " + strconv.Itoa(arboli.Data.Cantidad) + "}\"];\n"
 	}
 
 	if arboli.Left != nil {
@@ -239,7 +242,7 @@ func Graficararbol(nodoraiz *Node, nombre string) string {
 	mode := 0777
 	_ = ioutil.WriteFile("./graficoArboles/"+nombre+".png", cmd, os.FileMode(mode))
 
-	f, _ := os.Open("./graficoArboles/"+nombre+".png")
+	f, _ := os.Open("./graficoArboles/" + nombre + ".png")
 
 	reader := bufio.NewReader(f)
 	content, _ := ioutil.ReadAll(reader)

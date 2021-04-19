@@ -1,0 +1,6 @@
+digraph grafico{
+rankdir=UD 
+node[shape=box] 
+concentrate=true 
+nodo77[ shape=record, label ="{Codigo: 77|Nombre: Pequeño Caucho Tuna|Precio: 312|Cantidad: 116}"];
+}

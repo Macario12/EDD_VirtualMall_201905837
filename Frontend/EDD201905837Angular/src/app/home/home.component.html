@@ -1,8 +1,46 @@
+<mat-toolbar color="accent" class="navbar">
+  <div>
+    <button mat-icon-button class="example-icon" >
+      <mat-icon>menu</mat-icon>
+    </button>
+      <input type="text" matInput placeholder="llave" [(ngModel)]="llave" >
+      <button  mat-icon-button class="example-icon" (click)="llavenviar()">
+        Enviar
+      </button>  
+  </div>
+  <div>
+
+    <span>
+      <button  mat-icon-button class="example-icon" routerLink='/reportes'>
+      <mat-icon>account_circle</mat-icon>
+      </button>
+    </span>
+
+    <span>
+      
+      <button  mat-icon-button class="example-icon" routerLink='/home'>
+      <mat-icon>home</mat-icon>
+      
+      </button>
+    </span>
+    <span>
+      <button mat-icon-button class="example-icon" routerLink='/carrito' >
+        
+      <mat-icon> local_grocery_store</mat-icon>
+      </button>
+    </span>
+    <span>
+      <button mat-icon-button class="example-icon" routerLink='/registrar'>
+        <mat-icon>exit_to_app</mat-icon>
+      </button>
+    </span>
+  </div>
+</mat-toolbar> 
 <br>
 <h1>Tiendas</h1>
 
 
-<div class="btn-group" role="group" aria-label="Basic example">
+<div class="btn-group" role="group" aria-label="Basic example" *ngIf="validarUsuario()">
   <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
     Agregar Tiendas
   </button>
@@ -12,6 +50,9 @@
   
   <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalPedidos">
     Agregar Pedidos
+  </button>
+  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalUsuario">
+    Agregar Usuarios
   </button>
   
 </div>
@@ -37,6 +78,29 @@
     </div>
   </div>
 </div>
+
+<!-- Modal Insertar Usuarios-->
+<div class="modal fade" id="modalUsuario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title" id="exampleModalLabel" style="color: crimson;">Agregar Usuarios</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+        <div class="mb-3">
+          <input class="form-control" type="file" id="formFile" name = "currentInput" accept=".json" [(ngModel)]="currentInput" (change)="onFileSelectedUsuarios($event)">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" (click)="getStore()" data-bs-dismiss="modal">Agregar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <!-- Modal Insertar Inventario -->
 <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -201,6 +265,13 @@
 
 <script>
   var myModal = document.getElementById('modalArbol')
+  var myInput = document.getElementById('myInput')
+
+  myModal.addEventListener('shown.bs.modal', function () {
+    myInput.focus()
+  })
+
+  var myModal = document.getElementById('modalUsuario')
   var myInput = document.getElementById('myInput')
 
   myModal.addEventListener('shown.bs.modal', function () {

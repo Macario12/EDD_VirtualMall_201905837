@@ -1,0 +1,10 @@
+digraph grafico{
+rankdir=UD 
+node[shape=box] 
+concentrate=true 
+nodo192[ shape=record, label ="{Codigo: 192|Nombre: Increíble Frozen Bike|Precio: 26|Cantidad: 29}"];
+nodo191[ shape=record, label ="{Codigo: 191|Nombre: Genérica Soft Sombrero|Precio: 385|Cantidad: 337}"];
+nodo192->nodo191
+nodo193[ shape=record, label ="{Codigo: 193|Nombre: Hecho a mano Cotton Ensalada|Precio: 468|Cantidad: 88}"];
+nodo192->nodo193
+}

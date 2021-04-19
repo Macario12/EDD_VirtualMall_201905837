@@ -1,6 +1,8 @@
 package main
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -13,7 +15,9 @@ import (
 
 	"os"
 
+	"./Grafo"
 	"./arbol_avl"
+	"./arbol_b"
 	"./estructura"
 	"./matrizDispersa"
 	"./pedidos"
@@ -170,7 +174,7 @@ func busquedaPosicionLinealizada(w http.ResponseWriter, r *http.Request) {
 	var sliceTiendas []tienda.Store
 
 	for a != nil {
-		tienda := tienda.Store{a.Store.Name, a.Store.Description, a.Store.Contact, a.Store.Score, a.Store.Logo, a.Store.Productos, a.Store.Arbol64, a.Store.Pedidos64,a.Store.Fecha}
+		tienda := tienda.Store{a.Store.Name, a.Store.Description, a.Store.Contact, a.Store.Score, a.Store.Logo, a.Store.Productos, a.Store.Arbol64, a.Store.Pedidos64, a.Store.Fecha}
 		sliceTiendas = append(sliceTiendas, tienda)
 		a = a.Next
 	}
@@ -284,7 +288,7 @@ func graficar(w http.ResponseWriter, r *http.Request) {
 		listaObtenida := linealizar[i]
 		a := listaObtenida.Frist
 		for a != nil {
-			tienda := tienda.Store{a.Store.Name, a.Store.Description, a.Store.Contact, a.Store.Score, a.Store.Logo, a.Store.Productos, a.Store.Arbol64,  a.Store.Pedidos64, a.Store.Fecha}
+			tienda := tienda.Store{a.Store.Name, a.Store.Description, a.Store.Contact, a.Store.Score, a.Store.Logo, a.Store.Productos, a.Store.Arbol64, a.Store.Pedidos64, a.Store.Fecha}
 			sliceTiendas = append(sliceTiendas, tienda)
 			a = a.Next
 		}
@@ -452,8 +456,9 @@ func agregarProductos() {
 			precioaux := arbol_avl.VectorInventario.Inventarios[x].Productoss[y].Precio
 			cantidadaux := arbol_avl.VectorInventario.Inventarios[x].Productoss[y].Cantidad
 			imagenaux := arbol_avl.VectorInventario.Inventarios[x].Productoss[y].Imagen
+			almacenamientoaux := arbol_avl.VectorInventario.Inventarios[x].Productoss[y].Almacenamiento
 
-			productoaux := *arbol_avl.NewInventario(nombreaux, codigoaux, descripcionaux, precioaux, cantidadaux, imagenaux)
+			productoaux := *arbol_avl.NewInventario(nombreaux, codigoaux, descripcionaux, precioaux, cantidadaux, imagenaux, almacenamientoaux)
 			//fmt.Print(productoaux)
 			arbolaux.Insertroot(productoaux)
 		}
@@ -541,7 +546,6 @@ func cargarPedidos(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-
 	for x := 0; x < len(contenedorPedidos.PedidosPr); x++ {
 		indice := string(contenedorPedidos.PedidosPr[x].Tienda[0])
 
@@ -561,60 +565,167 @@ func cargarPedidos(w http.ResponseWriter, r *http.Request) {
 		*linealizar[posicionL].SearchStore(contenedorPedidos.PedidosPr[x].Tienda).Fecha = contenedorPedidos.PedidosPr[x].Fecha
 		fmt.Println(posicionL)
 		for i := 0; i < calendarioPedidos.GetLen(); i++ {
-		contAño := calendarioPedidos.Obtener(i).(ContenedorAño)
-		for a := 0; a < contAño.meses.GetLen(); a++ {
-			contMes := contAño.meses.Obtener(a).(ContenedorMes)
-			*linealizar[posicionL].SearchStore(contenedorPedidos.PedidosPr[x].Tienda).Pedidos64 = contMes.matris.Graficar(contAño.año + "_" + contMes.mes)
+			contAño := calendarioPedidos.Obtener(i).(ContenedorAño)
+			for a := 0; a < contAño.meses.GetLen(); a++ {
+				contMes := contAño.meses.Obtener(a).(ContenedorMes)
+				*linealizar[posicionL].SearchStore(contenedorPedidos.PedidosPr[x].Tienda).Pedidos64 = contMes.matris.Graficar(contAño.año + "_" + contMes.mes)
 			}
-		}	
-		
+		}
+
 	}
-	
-	
+
 	(w).Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(contenedorPedidos)
 }
 
+//Usuario
+func cargarUsuarios(w http.ResponseWriter, r *http.Request) {
+
+	reqBody, err := ioutil.ReadAll(r.Body)
+	fmt.Println("CARGA DE USUARIOS")
+	if err != nil {
+		fmt.Fprintf(w, "Error al insertar")
+	}
+	(w).Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	json.Unmarshal(reqBody, &arbol_b.VectorUsers)
+	agregarUsuario()
+	json.NewEncoder(w).Encode(arbol_b.VectorUsers)
+}
+
+// LLAVE PENDIENTE
+func cargarllave(w http.ResponseWriter, r *http.Request) {
+
+	reqBody, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		fmt.Fprintf(w, "Error al insertar")
+	}
+	fmt.Println("LLLAVE")
+	(w).Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	json.Unmarshal(reqBody, &arbol_b.Llave)
+	json.NewEncoder(w).Encode(arbol_b.Llave)
+}
+
+var arbol *arbol_b.Arbol
+
+func agregarUsuario() {
+
+	for x := 0; x < len(arbol_b.VectorUsers.Usuarios); x++ {
+		encriptar := []byte(arbol_b.VectorUsers.Usuarios[x].Password)
+		hash := sha256.Sum256(encriptar)
+		usuario := arbol_b.NewUser(arbol_b.VectorUsers.Usuarios[x].DPI, arbol_b.VectorUsers.Usuarios[x].Nombre, arbol_b.VectorUsers.Usuarios[x].Correo, hex.EncodeToString(hash[:]), arbol_b.VectorUsers.Usuarios[x].Cuenta)
+
+		arbol.Insertar(arbol_b.NewKey(*usuario))
+
+	}
+
+}
+
+//Cargar Unico Usuario
+func cargarUsuario(w http.ResponseWriter, r *http.Request) {
+
+	reqBody, err := ioutil.ReadAll(r.Body)
+	fmt.Println("CARGA DE Usuario")
+	if err != nil {
+		fmt.Fprintf(w, "Error al insertar")
+	}
+	(w).Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	json.Unmarshal(reqBody, &usuariounico)
+	agregarUsuarioUnico()
+	json.NewEncoder(w).Encode(usuariounico)
+}
+
+var usuariounico arbol_b.User
+
+func agregarUsuarioUnico() {
+
+	usuario := arbol_b.NewUser(usuariounico.DPI, usuariounico.Nombre, usuariounico.Correo, usuariounico.Password, usuariounico.Cuenta)
+
+	arbol.Insertar(arbol_b.NewKey(*usuario))
+
+}
+
+var usuariob arbol_b.User
+
+//Busqueda de usuario pa Login
+
+func buscarUsuario(w http.ResponseWriter, r *http.Request) {
+
+	reqBody, err := ioutil.ReadAll(r.Body)
+	fmt.Println("CARGA DE Usuario")
+	if err != nil {
+		fmt.Fprintf(w, "Error al insertar")
+	}
+	(w).Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	json.Unmarshal(reqBody, &usuariob)
+
+	json.NewEncoder(w).Encode(arbol_b.Buscar(arbol.Raiz, usuariob, nil, 0))
+}
+
 var sliceProducots []arbol_avl.Inventario
+
 func PreOrden(n *arbol_avl.Node) {
 	if n != nil {
-		productoR := arbol_avl.Inventario{n.Data.Nombre, n.Data.Codigo, n.Data.Descripcion, n.Data.Precio, n.Data.Cantidad, n.Data.Imagen}
+		productoR := arbol_avl.Inventario{n.Data.Nombre, n.Data.Codigo, n.Data.Descripcion, n.Data.Precio, n.Data.Cantidad, n.Data.Imagen, n.Data.Almacenamiento}
 		sliceProducots = append(sliceProducots, productoR)
 		fmt.Println(n.Data.Nombre)
-		PreOrden( n.Left)
+		PreOrden(n.Left)
 		PreOrden(n.Right)
 	}
 }
 
 type StoreReturn struct {
-	Name        string `json:"Nombre"`
-	Description string `json:"Descripcion"`
-	Contact     string `json:"Contacto"`
-	Score       int    `json:"Calificacion"`
-	Logo        string `json:"Logo"`
-	Productos   []arbol_avl.Inventario
-	Raiz   *arbol_avl.Tree
-	Arbol64     *string
-	Pedidos64   *string
-	Fecha *string
+	Departamento string
+	Name         string `json:"Nombre"`
+	Description  string `json:"Descripcion"`
+	Contact      string `json:"Contacto"`
+	Score        int    `json:"Calificacion"`
+	Logo         string `json:"Logo"`
+	Productos    []arbol_avl.Inventario
+	Raiz         *arbol_avl.Tree
+	Arbol64      *string
+	Pedidos64    *string
+	Fecha        *string
 }
 
+//Retorno tiendas
 func retornarTiendas(w http.ResponseWriter, r *http.Request) {
 
 	var sliceTiendas []StoreReturn
+	var contadorrer int
+	var departamentoaux string
+	var contadorlinealizarau int
 	for i := 0; i < len(linealizar); i++ {
 		listaObtenida := linealizar[i]
 		a := listaObtenida.Frist
+		departamentoaux = depa[contadorrer]
+		contadorlinealizarau++
+		if contadorlinealizarau == 5 {
+			contadorlinealizarau = 0
+			contadorrer++
+		}
+		if contadorrer == len(depa) {
+			contadorrer = 0
+		}
 		for a != nil {
 
 			producto := a.Store.Productos.Root
 
 			PreOrden(producto)
 			fmt.Println(sliceProducots)
-			tienda := StoreReturn{a.Store.Name, a.Store.Description, a.Store.Contact, a.Store.Score, a.Store.Logo, sliceProducots, a.Store.Productos, a.Store.Arbol64, a.Store.Pedidos64,a.Store.Fecha}
+
+			tienda := StoreReturn{departamentoaux, a.Store.Name, a.Store.Description, a.Store.Contact, a.Store.Score, a.Store.Logo, sliceProducots, a.Store.Productos, a.Store.Arbol64, a.Store.Pedidos64, a.Store.Fecha}
+
 			sliceTiendas = append(sliceTiendas, tienda)
-			
+
 			sliceProducots = nil
 			a = a.Next
 		}
@@ -626,8 +737,90 @@ func retornarTiendas(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(sliceTiendas)
 }
 
-func main() {
+//Grafos de Arboles, Sin, Cifrado, Sencible
 
+func graficarArbolB(w http.ResponseWriter, r *http.Request) {
+	(w).Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode(arbol.GraficarArbolSin())
+}
+
+func graficarArbolBCifrado(w http.ResponseWriter, r *http.Request) {
+	(w).Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode(arbol.GraficarArbolCifrado())
+}
+
+func graficarArbolBCifradoSencible(w http.ResponseWriter, r *http.Request) {
+
+	(w).Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode(arbol.GraficarArbolCifradoSencible())
+
+}
+
+//GRAFO
+
+//Cargar Grafo
+
+func cargarGrafo(w http.ResponseWriter, r *http.Request) {
+
+	reqBody, err := ioutil.ReadAll(r.Body)
+	fmt.Println("CARGA DE GRAFO")
+	if err != nil {
+		fmt.Fprintf(w, "Error al insertar")
+	}
+	(w).Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	json.Unmarshal(reqBody, &Grafo.Grafojson)
+	grafocrear()
+	json.NewEncoder(w).Encode(Grafo.Grafojson)
+}
+var grafo Grafo.Grafo
+func grafocrear() {
+	var enlaces []Grafo.Enlace
+	for _, nodo := range Grafo.Grafojson.Nodos {
+		for _, enlace := range nodo.EnlancesA {
+			enlaces = append(enlaces, Grafo.Enlace{
+				EstadoInicial: nodo.Nombre,
+				EstadoFinal: enlace.Nombre,
+				PesoDeRecorrido: float64(enlace.Distancia),
+
+			})
+
+			enlaces = append(enlaces, Grafo.Enlace{
+				EstadoInicial: nodo.Nombre,
+				EstadoFinal: enlace.Nombre,
+				PesoDeRecorrido: float64(enlace.Distancia),
+			})
+		}
+
+	}
+
+	grafo = Grafo.Grafo{
+		Enlaces: enlaces,
+		EstadoInicial: Grafo.Grafojson.PosicionInicialRobot,
+		EstadoFinal: Grafo.Grafojson.Entrega,
+	}
+
+	recorrido := grafo.ObtenerRecorrido("Andromeda", "El ave del paraiso")
+	var prueba []string
+	prueba = append(prueba,"El altar")
+	
+	grafo.Graficar("Grafo", recorrido.Trayectoria, recorrido.EstadosTrayectoria)
+}
+
+//MAIN
+func main() {
+	arbol = arbol_b.NewArbol(5)
+	encriptar := []byte("1234")
+	hash := sha256.Sum256(encriptar)
+	userDefault := arbol_b.NewUser(1234567890101, "EDD2021", " auxiliar@edd.com", hex.EncodeToString(hash[:]), "Admin")
+	arbol.Insertar(arbol_b.NewKey(*userDefault))
 	router := mux.NewRouter()
 
 	router.HandleFunc("/tiendascargadas", retornarTiendas).Methods("GET")
@@ -639,8 +832,15 @@ func main() {
 	router.HandleFunc("/id/{id}", busquedaPosicionLinealizada).Methods("GET")
 	router.HandleFunc("/Eliminar", eliminarTienda).Methods("DELETE")
 	router.HandleFunc("/agregarINV", AgregarInventario).Methods("POST")
+	router.HandleFunc("/usuarios", cargarUsuarios).Methods("POST")
+	router.HandleFunc("/crearUsuario", cargarUsuario).Methods("POST")
 	router.HandleFunc("/cargarPedidos", cargarPedidos).Methods("POST")
-
+	router.HandleFunc("/buscarUsuario", buscarUsuario).Methods("POST")
+	router.HandleFunc("/llave", cargarllave).Methods("POST")
+	router.HandleFunc("/arbolS", graficarArbolB).Methods("GET")
+	router.HandleFunc("/arbolC", graficarArbolBCifrado).Methods("GET")
+	router.HandleFunc("/arbolCS", graficarArbolBCifradoSencible).Methods("GET")
+	router.HandleFunc("/grafo", cargarGrafo).Methods("POST")
 	log.Fatal(http.ListenAndServe(":3000", router))
 
 }

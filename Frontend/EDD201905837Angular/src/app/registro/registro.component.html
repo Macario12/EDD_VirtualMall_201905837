@@ -1,0 +1,60 @@
+<br>
+<br><br>
+<br>
+<div class="container" id="container">
+  <div class="form-container sign-in-container">
+    <form action="#">
+      <h1>Iniciar Sesión</h1>
+      <mat-form-field class="example-full-width">
+        <mat-label>Correo</mat-label>
+        <input type="number" name="CORREO" matInput  placeholder="ejemplo@ejemplo.com" [(ngModel)]="usuario.DPI">
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>Password</mat-label>
+        <input type="password" name="USER" matInput placeholder="" [(ngModel)]="usuario.Password">
+      </mat-form-field>
+      <button (click)="buscarUsuario()">Iniciar Sesión</button>
+    </form>
+  </div>
+  <div class="overlay-container">
+    <div class="overlay">
+      <div class="overlay-panel overlay-right">
+          
+      <h1>Registro</h1>
+      <mat-form-field class="example-full-width">
+        <mat-label>DPI</mat-label>
+        <input type="number" matInput placeholder="78467137946" [(ngModel)]="usuario.DPI">
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>Nombre</mat-label>
+        <input type="text" matInput placeholder="Ariel Macario" [(ngModel)]="usuario.Nombre">
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>Correo</mat-label>
+        <input type="email" matInput placeholder="ejemplo@ejemplo.com" [(ngModel)]="usuario.Correo">
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>Password</mat-label>
+        <input type="password" matInput placeholder="" [(ngModel)]="usuario.Password">
+      </mat-form-field>
+      <button (click)=" crearUsuario()">Registrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var myModal = document.getElementById('modalArbol')
+  var myInput = document.getElementById('myInput')
+
+  myModal.addEventListener('shown.bs.modal', function () {
+    myInput.focus()
+  })
+
+  var myModal = document.getElementById('modalUsuario')
+  var myInput = document.getElementById('myInput')
+
+  myModal.addEventListener('shown.bs.modal', function () {
+    myInput.focus()
+  })
+  </script>

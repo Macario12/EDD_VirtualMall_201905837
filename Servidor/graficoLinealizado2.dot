@@ -1,0 +1,41 @@
+digraph grafico{
+compound=true;
+color=orangered
+subgraph cluster0{
+edge[minlen=0.1,color="greenyellow", dir=fordware]
+struct0[shape=record,color=".7 .3 1.0",label="A|Reproductores web|{1| pos:5}"];
+struct1[shape=record,color=".7 .3 1.0",label="A|Reproductores web|{2| pos:6}"];
+struct2[shape=record,color=".7 .3 1.0",label="A|Reproductores web|{3| pos:7}"];
+struct3[shape=record,color=".7 .3 1.0",label="A|Reproductores web|{4| pos:8}"];
+struct4[shape=record,color=".7 .3 1.0",label="A|Reproductores web|{5| pos:9}"];
+struct0->struct1
+struct1->struct2
+struct2->struct3
+struct3->struct4
+}
+subgraph cluster5{
+edge[color="steelblue",dir=both]
+nodo0[shape=record,color="darkturquoise",label="{{1913|Atencio y Delafuente}|994-942-589}"];
+}
+struct0-> nodo0 [lhead=cluster0];
+subgraph cluster6{
+edge[color="steelblue",dir=both]
+}
+subgraph cluster7{
+edge[color="steelblue",dir=both]
+nodo1[shape=record,color="darkturquoise",label="{{1364|Alcaraz y Chapa}|920.223.706}"];
+}
+struct2-> nodo1 [lhead=cluster2];
+subgraph cluster8{
+edge[color="steelblue",dir=both]
+nodo2[shape=record,color="darkturquoise",label="{{2003|Alba Lebrón Hermanos}|962965742}"];
+nodo3[shape=record,color="darkturquoise",label="{{1295|Agosto e Hijos}|962.523.332}"];
+nodo2->nodo3
+}
+struct3-> nodo2 [lhead=cluster3];
+subgraph cluster9{
+edge[color="steelblue",dir=both]
+nodo4[shape=record,color="darkturquoise",label="{{3847|Alcala, Castañeda y Castañeda Asociados}|944-763-784}"];
+}
+struct4-> nodo4 [lhead=cluster4];
+}
