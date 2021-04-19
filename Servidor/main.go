@@ -607,10 +607,22 @@ func cargarllave(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	json.Unmarshal(reqBody, &arbol_b.Llave)
+	fmt.Println(arbol_b.Llave)
 	json.NewEncoder(w).Encode(arbol_b.Llave)
 }
 
+
 var arbol *arbol_b.Arbol
+
+//Grafo
+func graficarGrafo(w http.ResponseWriter, r *http.Request) {
+	(w).Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	recorrido := grafo.ObtenerRecorrido("Andromeda", "El ave del paraiso")
+	json.NewEncoder(w).Encode(grafo.Graficar("Grafo", recorrido.Trayectoria, recorrido.EstadosTrayectoria))
+}
+
 
 func agregarUsuario() {
 
@@ -839,8 +851,10 @@ func main() {
 	router.HandleFunc("/llave", cargarllave).Methods("POST")
 	router.HandleFunc("/arbolS", graficarArbolB).Methods("GET")
 	router.HandleFunc("/arbolC", graficarArbolBCifrado).Methods("GET")
+	
+	router.HandleFunc("/grafo", graficarGrafo).Methods("GET")
 	router.HandleFunc("/arbolCS", graficarArbolBCifradoSencible).Methods("GET")
-	router.HandleFunc("/grafo", cargarGrafo).Methods("POST")
+	router.HandleFunc("/Cgrafo", cargarGrafo).Methods("POST")
 	log.Fatal(http.ListenAndServe(":3000", router))
 
 }

@@ -43,6 +43,16 @@ export class ReportesComponent implements OnInit {
     },error => console.error(error))
   }
 
+  getGrafo(){
+    this._usuarioService.getGrafo().subscribe((arbolBase: string) =>{
+
+      this.arbol64 = arbolBase
+      this.verArbolModal(this.arbol64)
+      console.log(this.arbol64)
+
+    },error => console.error(error))
+  }
+
   verArbolModal(imagen: string){
     this.imageSource = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${imagen}`);
    }

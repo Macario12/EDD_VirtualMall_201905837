@@ -3,14 +3,14 @@
     <button mat-icon-button class="example-icon" >
       <mat-icon>menu</mat-icon>
     </button>
-      <input type="text" matInput placeholder="llave" [(ngModel)]="llave" >
+      <input type="text" matInput placeholder="llave" [(ngModel)]="llave.key" >
       <button  mat-icon-button class="example-icon" (click)="llavenviar()">
         Enviar
       </button>  
   </div>
   <div>
 
-    <span>
+    <span *ngIf="validarUsuario()">
       <button  mat-icon-button class="example-icon" routerLink='/reportes'>
       <mat-icon>account_circle</mat-icon>
       </button>
@@ -41,6 +41,9 @@
 
 
 <div class="btn-group" role="group" aria-label="Basic example" *ngIf="validarUsuario()">
+  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#ModalGrafo">
+    Agregar Grafo
+  </button>
   <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
     Agregar Tiendas
   </button>
@@ -55,6 +58,28 @@
     Agregar Usuarios
   </button>
   
+</div>
+
+<!-- Modal Insertar Grafo-->
+<div class="modal fade" id="ModalGrafo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title" id="exampleModalLabel" style="color: crimson;">Agregar Grafo</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+        <div class="mb-3">
+          <input class="form-control" type="file" id="formFile" name = "currentInput" accept=".json" [(ngModel)]="currentInput" (change)="onFileSelectedGrafo($event)">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary"  data-bs-dismiss="modal">Agregar</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- Modal Insertar Tiendas-->
@@ -246,6 +271,15 @@
 
 <script>
   var myModal = document.getElementById('modalMatriz')
+  var myInput = document.getElementById('myInput')
+
+  myModal.addEventListener('shown.bs.modal', function () {
+    myInput.focus()
+  })
+  </script>
+
+<script>
+  var myModal = document.getElementById('ModalGrafo')
   var myInput = document.getElementById('myInput')
 
   myModal.addEventListener('shown.bs.modal', function () {

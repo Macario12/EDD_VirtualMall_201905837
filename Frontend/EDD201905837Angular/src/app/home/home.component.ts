@@ -9,6 +9,7 @@ import { PedidosService } from '../services/pedidos.service';
 
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { UsuariosService } from '../services/usuarios.service';
+import { LLave } from '../models/llave.model';
 
 
 
@@ -22,7 +23,7 @@ export class HomeComponent implements OnInit {
   public Tiendas: Tienda[];
   public currentInput;
   public status:string;
-  public llave: string;
+  public llave: LLave;
   selectedFle
   nombre
   imageSource;
@@ -31,7 +32,7 @@ export class HomeComponent implements OnInit {
   
   constructor(private _tiendasService: TiendasService, private _usuariosService: UsuariosService, private _productosService: ProductosService, public dialogM: MatDialog
     ,private sanitizer: DomSanitizer, private _PedidosService: PedidosService) {
-      this.llave = ""
+      this.llave = new LLave("")
      }
 
   ngOnInit(): void {
@@ -49,7 +50,6 @@ export class HomeComponent implements OnInit {
   llavenviar(){
     this._usuariosService.posrtllave(this.llave).subscribe(
       Response => {
-        
       console.log(this.llave)
         console.log(Response)
         
@@ -66,6 +66,31 @@ export class HomeComponent implements OnInit {
     },error => console.error(error))
   }
   
+  onFileSelectedGrafo(event: any) {
+    if(event.target.files.length > 0) 
+     {
+       console.log(event.target.files[0])
+      this.selectedFle = event.target.files[0];
+      this.nombre = this.selectedFle.name
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const text = reader.result!.toString().trim();
+        console.log("hey")
+        console.log(text)
+        this._usuariosService.postGrafo(text).subscribe(
+         Response => {
+           console.log(Response)
+           
+         }
+       )
+       
+        
+      }
+      reader.readAsText(this.selectedFle);
+     }
+   }
+
   onFileSelected(event: any) {
     if(event.target.files.length > 0) 
      {

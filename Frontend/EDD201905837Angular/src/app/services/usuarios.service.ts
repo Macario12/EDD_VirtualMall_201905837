@@ -35,11 +35,10 @@ export class UsuariosService {
     return this._http.post(this.url+'usuarios',params,{headers:headers})
   }
 
-  posrtllave(llave: string): Observable<any>{
-    let params = llave
+  posrtllave(llave: any): Observable<any>{
+    let params =  JSON.stringify(llave)
     let headers = new HttpHeaders().set('Content-Type','multipart/form-data');
-
-    return this._http.post(this.url+'llave',params,{headers:headers})
+    return this._http.post(this.url+'llave',params,{headers:headers});
   }
 
   getArbolS(): Observable<string>{
@@ -50,5 +49,16 @@ export class UsuariosService {
   }
   getArbolCS(): Observable<string>{
     return this._http.get<string>(this.url+'arbolCS');
+  }
+
+  getGrafo(): Observable<string>{
+    return this._http.get<string>(this.url+'grafo');
+  }
+
+  postGrafo(users: any): Observable<any>{
+    let params = users
+    let headers = new HttpHeaders().set('Content-Type','multipart/form-data');
+
+    return this._http.post(this.url+'Cgrafo',params,{headers:headers})
   }
 }
