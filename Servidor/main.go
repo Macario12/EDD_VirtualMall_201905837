@@ -16,6 +16,7 @@ import (
 	"os"
 
 	"./Grafo"
+	"./Tabla_Hash"
 	"./arbol_avl"
 	"./arbol_b"
 	"./estructura"
@@ -611,7 +612,6 @@ func cargarllave(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(arbol_b.Llave)
 }
 
-
 var arbol *arbol_b.Arbol
 
 //Grafo
@@ -619,10 +619,9 @@ func graficarGrafo(w http.ResponseWriter, r *http.Request) {
 	(w).Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
-	recorrido := grafo.ObtenerRecorrido("Andromeda", "El ave del paraiso")
-	json.NewEncoder(w).Encode(grafo.Graficar("Grafo", recorrido.Trayectoria, recorrido.EstadosTrayectoria))
+	recorrido := grafo.ObtenerRecorrido(grafo.EstadoInicial, grafo.EstadoFinal)
+	json.NewEncoder(w).Encode(grafo.Graficar("GRafoCa", recorrido.Trayectoria, recorrido.EstadosTrayectoria))
 }
-
 
 func agregarUsuario() {
 
@@ -792,21 +791,22 @@ func cargarGrafo(w http.ResponseWriter, r *http.Request) {
 	grafocrear()
 	json.NewEncoder(w).Encode(Grafo.Grafojson)
 }
+
 var grafo Grafo.Grafo
+
 func grafocrear() {
 	var enlaces []Grafo.Enlace
 	for _, nodo := range Grafo.Grafojson.Nodos {
 		for _, enlace := range nodo.EnlancesA {
 			enlaces = append(enlaces, Grafo.Enlace{
-				EstadoInicial: nodo.Nombre,
-				EstadoFinal: enlace.Nombre,
+				EstadoInicial:   nodo.Nombre,
+				EstadoFinal:     enlace.Nombre,
 				PesoDeRecorrido: float64(enlace.Distancia),
-
 			})
 
 			enlaces = append(enlaces, Grafo.Enlace{
-				EstadoInicial: nodo.Nombre,
-				EstadoFinal: enlace.Nombre,
+				EstadoInicial:   enlace.Nombre,
+				EstadoFinal:     nodo.Nombre,
 				PesoDeRecorrido: float64(enlace.Distancia),
 			})
 		}
@@ -814,16 +814,121 @@ func grafocrear() {
 	}
 
 	grafo = Grafo.Grafo{
-		Enlaces: enlaces,
+		Enlaces:       enlaces,
 		EstadoInicial: Grafo.Grafojson.PosicionInicialRobot,
-		EstadoFinal: Grafo.Grafojson.Entrega,
+		EstadoFinal:   Grafo.Grafojson.Entrega,
 	}
 
-	recorrido := grafo.ObtenerRecorrido("Andromeda", "El ave del paraiso")
-	var prueba []string
-	prueba = append(prueba,"El altar")
-	
+	recorrido := grafo.ObtenerRecorrido(grafo.EstadoInicial, grafo.EstadoFinal)
+
 	grafo.Graficar("Grafo", recorrido.Trayectoria, recorrido.EstadosTrayectoria)
+}
+
+type Peticion struct {
+	Tienda     tienda.Store `json:"Tienda"`
+	Usuario    arbol_b.User `json:"Usuario"`
+	IdTabla    string       `json:"IdTabla"`
+	Comentario string       `json:"comentario"`
+	Fecha      string       `json:"Fecha"`
+}
+
+func agregarComentarioT(w http.ResponseWriter, r *http.Request) {
+	reqBody, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		fmt.Fprintf(w, "Error al insertar")
+	}
+	fmt.Println("Subir Comentario")
+	(w).Header().Set("Access-Control-Allow-Origin", "*")
+	(w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	(w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+	w.Header().Set("Content-Type", "application/json")
+	var peticion Peticion
+	json.Unmarshal(reqBody, &peticion)
+	fmt.Println("id tabla: " + peticion.IdTabla)
+	fmt.Println("Comentario: " + peticion.Comentario)
+	for i := 0; i < len(linealizar); i++ {
+		nodo := linealizar[i].SearchNodo(peticion.Tienda.Name, peticion.Tienda.Contact)
+		if nodo != nil {	
+			tabla := nodo.GetTabla()
+			if peticion.IdTabla != "" {
+				tabla = nodo.GetTabla().GetTabla(peticion.IdTabla)
+				tabla.Insertar(peticion.Usuario.DPI, tabla.NewRegistro(&peticion.Usuario, peticion.Comentario))
+			} else {
+				tabla = nodo.GetTabla()
+				registro := tabla.NewRegistro(&peticion.Usuario, peticion.Comentario)
+				tabla.Insertar(peticion.Usuario.DPI, registro)
+			}
+			fmt.Println(tabla.GetAsList())
+			json.NewEncoder(w).Encode(tabla.GetAsList())
+		}
+	}
+
+	
+	
+}
+
+func retornarComenTienda(w http.ResponseWriter, r *http.Request) {
+	type Peticion struct {
+		Tienda tienda.Store `json:"Tienda"`
+	}
+	type Respuesta struct {
+		idTabla     string
+		comentarios []*Tabla_Hash.Registro
+	}
+	reqBody, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		fmt.Fprintf(w, "Error al insertar")
+	}
+	fmt.Println("Subir Comentario")
+	(w).Header().Set("Access-Control-Allow-Origin", "*")
+	(w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	(w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+	w.Header().Set("Content-Type", "application/json")
+	var peticion Peticion
+	json.Unmarshal(reqBody, &peticion)
+	_ = json.NewDecoder(r.Body).Decode(&peticion)
+	for i := 0; i < len(linealizar); i++ {
+		nodo := linealizar[i].SearchNodo(peticion.Tienda.Name, peticion.Tienda.Contact)
+			if nodo != nil {
+				fmt.Println("")
+				fmt.Println(nodo.Comentarios.GetAsList())
+				json.NewEncoder(w).Encode(nodo.Comentarios.GetAsList())
+			}
+		
+	}
+
+	fmt.Println("Retornando COment")
+}
+
+func subirComentarioProducto(w http.ResponseWriter, r *http.Request) {
+	type Peticion struct {
+		Producto   arbol_avl.Inventario `json:"Producto"`
+		Usuario    arbol_b.User `json:"Usuario"`
+		IdTabla    string             `json:"IdTabla"`
+		Comentario string             `json:"Comentario"`
+	}
+/*	var peticion Peticion
+	_ = json.NewDecoder(r.Body).Decode(&peticion)
+	fmt.Println("id tabla: " + peticion.IdTabla)
+	for _, listaDoble := range matrisLinearizada {
+		for a := 0; a < listaDoble.GetLen(); a++ {
+			nodo := listaDoble.ObtenerNodo(a)
+			producto := nodo.Inventario.GetNodo(peticion.Producto.Codigo)
+			if producto != nil {
+				var tabla *estructuras.TablaHash
+				if peticion.IdTabla != "" {
+					tabla = producto.Comentarios.GetTabla(peticion.IdTabla)
+					tabla.Insertar(peticion.Usuario.DPI, tabla.NewRegistro(&peticion.Usuario, peticion.Comentario))
+				} else {
+					tabla = producto.Comentarios
+					tabla.Insertar(peticion.Usuario.DPI, tabla.NewRegistro(&peticion.Usuario, peticion.Comentario))
+				}
+				json.NewEncoder(w).Encode(tabla.GetAsList())
+			}
+		}
+	}
+
+	*/
 }
 
 //MAIN
@@ -851,10 +956,15 @@ func main() {
 	router.HandleFunc("/llave", cargarllave).Methods("POST")
 	router.HandleFunc("/arbolS", graficarArbolB).Methods("GET")
 	router.HandleFunc("/arbolC", graficarArbolBCifrado).Methods("GET")
-	
+
 	router.HandleFunc("/grafo", graficarGrafo).Methods("GET")
 	router.HandleFunc("/arbolCS", graficarArbolBCifradoSencible).Methods("GET")
 	router.HandleFunc("/Cgrafo", cargarGrafo).Methods("POST")
+
+	//COMENTARIOS
+
+	router.HandleFunc("/getComentariosTienda", retornarComenTienda).Methods("POST")
+	router.HandleFunc("/subirComentarioTienda", agregarComentarioT).Methods("POST")
 	log.Fatal(http.ListenAndServe(":3000", router))
 
 }

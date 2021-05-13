@@ -10,9 +10,8 @@ import (
 	"strings"
 )
 
-
 type Grafo struct {
-	Enlaces       []Enlace 
+	Enlaces       []Enlace
 	EstadoInicial string
 	EstadoFinal   string
 }
@@ -67,11 +66,11 @@ func (g *Grafo) ObtenerRecorrido(estadoInicial string, estadoFinal string) Recor
 
 func continuar(ultimoNivel []Union, estadoFinal string) bool {
 	for _, union := range ultimoNivel {
-		if union.EstadoActual != estadoFinal {
-			return true
+		if union.EstadoActual == estadoFinal {
+			return false
 		}
 	}
-	return false
+	return true
 }
 
 func (u Union) getUnionsOfUnion(enlaces []Enlace, estadoFinal string) []Union {
@@ -123,11 +122,11 @@ func ordenar(nivel []Union) []Union {
 
 func contiene(estados []string, estado string) bool {
 	for _, e := range estados {
-		if e == estado {
-			return true
+		if e != estado {
+			return false
 		}
 	}
-	return false
+	return true
 }
 
 func contieneEnlace(enlaces []Enlace, enlace Enlace) bool {
@@ -174,7 +173,7 @@ func (g *Grafo) Graficar(nombreGrafica, info string, estadosPintar []string) str
 			estados = append(estados, enlace.EstadoInicial)
 		}
 		if !contiene(estados, enlace.EstadoFinal) {
-			texto += format(enlace.EstadoFinal) + "[label=\"" + enlace.EstadoFinal +"\" color=firebrick4] \n"
+			texto += format(enlace.EstadoFinal) + "[label=\"" + enlace.EstadoFinal + "\" color=firebrick4] \n"
 			estados = append(estados, enlace.EstadoFinal)
 		}
 	}

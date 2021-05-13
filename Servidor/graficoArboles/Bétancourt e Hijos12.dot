@@ -1,0 +1,36 @@
+digraph grafico{
+rankdir=UD 
+node[shape=box] 
+concentrate=true 
+nodo43[ shape=record, label ="{Codigo: 43|Nombre: Gorgeous Soft Ratón|Precio: 545|Cantidad: 256}"];
+nodo39[ shape=record, label ="{Codigo: 39|Nombre: Artesanal Fresco Pantalones|Precio: 261|Cantidad: 11}"];
+nodo36[ shape=record, label ="{Codigo: 36|Nombre: Genérica Caucho Tocino|Precio: 305|Cantidad: 425}"];
+nodo35[ shape=record, label ="{Codigo: 35|Nombre: Artesanal Frozen Pollo|Precio: 537|Cantidad: 56}"];
+nodo36->nodo35
+nodo38[ shape=record, label ="{Codigo: 38|Nombre: Hecho a mano Hormigón Auto|Precio: 649|Cantidad: 480}"];
+nodo37[ shape=record, label ="{Codigo: 37|Nombre: Inteligente Caucho Embutidos|Precio: 722|Cantidad: 456}"];
+nodo38->nodo37
+nodo36->nodo38
+nodo39->nodo36
+nodo41[ shape=record, label ="{Codigo: 41|Nombre: Sin marca Cotton Queso|Precio: 503|Cantidad: 288}"];
+nodo40[ shape=record, label ="{Codigo: 40|Nombre: Práctica Metal Pescado|Precio: 14|Cantidad: 192}"];
+nodo41->nodo40
+nodo42[ shape=record, label ="{Codigo: 42|Nombre: Sin marca Hormigón Sombrero|Precio: 245|Cantidad: 188}"];
+nodo41->nodo42
+nodo39->nodo41
+nodo43->nodo39
+nodo47[ shape=record, label ="{Codigo: 47|Nombre: Inteligente Fresco Presidente|Precio: 716|Cantidad: 429}"];
+nodo45[ shape=record, label ="{Codigo: 45|Nombre: Rústico Madera Tocino|Precio: 140|Cantidad: 496}"];
+nodo44[ shape=record, label ="{Codigo: 44|Nombre: Rústico Acero Toallas|Precio: 823|Cantidad: 424}"];
+nodo45->nodo44
+nodo46[ shape=record, label ="{Codigo: 46|Nombre: Licencia Acero Pollo|Precio: 340|Cantidad: 308}"];
+nodo45->nodo46
+nodo47->nodo45
+nodo49[ shape=record, label ="{Codigo: 49|Nombre: Inteligente Frozen Zapatos|Precio: 627|Cantidad: 347}"];
+nodo48[ shape=record, label ="{Codigo: 48|Nombre: Elegante Hormigón Queso|Precio: 139|Cantidad: 371}"];
+nodo49->nodo48
+nodo50[ shape=record, label ="{Codigo: 50|Nombre: Licencia Madera Toallas|Precio: 52|Cantidad: 488}"];
+nodo49->nodo50
+nodo47->nodo49
+nodo43->nodo47
+}

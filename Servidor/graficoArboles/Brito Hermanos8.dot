@@ -1,0 +1,32 @@
+digraph grafico{
+rankdir=UD 
+node[shape=box] 
+concentrate=true 
+nodo258[ shape=record, label ="{Codigo: 258|Nombre: Fantástico Metal Mesa|Precio: 739|Cantidad: 274}"];
+nodo254[ shape=record, label ="{Codigo: 254|Nombre: Increíble Caucho Teclado|Precio: 865|Cantidad: 123}"];
+nodo252[ shape=record, label ="{Codigo: 252|Nombre: Refinado Fresco Camisa|Precio: 354|Cantidad: 167}"];
+nodo253[ shape=record, label ="{Codigo: 253|Nombre: Increíble Acero Teclado|Precio: 328|Cantidad: 249}"];
+nodo252->nodo253
+nodo254->nodo252
+nodo256[ shape=record, label ="{Codigo: 256|Nombre: Inteligente Madera Ensalada|Precio: 79|Cantidad: 49}"];
+nodo255[ shape=record, label ="{Codigo: 255|Nombre: Artesanal Soft Pollo|Precio: 185|Cantidad: 313}"];
+nodo256->nodo255
+nodo257[ shape=record, label ="{Codigo: 257|Nombre: Fantástico Plástico Pizza|Precio: 670|Cantidad: 388}"];
+nodo256->nodo257
+nodo254->nodo256
+nodo258->nodo254
+nodo261[ shape=record, label ="{Codigo: 261|Nombre: Artesanal Fresco Sombrero|Precio: 449|Cantidad: 259}"];
+nodo260[ shape=record, label ="{Codigo: 260|Nombre: Increíble Metal Queso|Precio: 344|Cantidad: 234}"];
+nodo259[ shape=record, label ="{Codigo: 259|Nombre: Increíble Plástico Tocino|Precio: 386|Cantidad: 467}"];
+nodo260->nodo259
+nodo261->nodo260
+nodo264[ shape=record, label ="{Codigo: 264|Nombre: Sin marca Madera Ensalada|Precio: 549|Cantidad: 53}"];
+nodo263[ shape=record, label ="{Codigo: 263|Nombre: Licencia Soft Pelota|Precio: 801|Cantidad: 128}"];
+nodo262[ shape=record, label ="{Codigo: 262|Nombre: Refinado Cotton Queso|Precio: 268|Cantidad: 68}"];
+nodo263->nodo262
+nodo264->nodo263
+nodo265[ shape=record, label ="{Codigo: 265|Nombre: Sabrosa Hormigón Queso|Precio: 357|Cantidad: 340}"];
+nodo264->nodo265
+nodo261->nodo264
+nodo258->nodo261
+}

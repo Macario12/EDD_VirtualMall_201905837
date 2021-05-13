@@ -61,6 +61,7 @@ import {OverlayModule} from '@angular/cdk/overlay';
 import { HomeComponent } from './home/home.component';
 import { CarritoDeComprasComponent } from './carrito-de-compras/carrito-de-compras.component';
 import { HttpClientModule } from '@angular/common/http';
+
 import { FormsModule } from '@angular/forms';
 
 import { TiendasService } from './services/tiendas.service';

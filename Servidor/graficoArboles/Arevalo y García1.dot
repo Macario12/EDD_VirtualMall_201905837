@@ -1,0 +1,30 @@
+digraph grafico{
+rankdir=UD 
+node[shape=box] 
+concentrate=true 
+nodo36[ shape=record, label ="{Codigo: 36|Nombre: Refinado Caucho Pizza|Precio: 524|Cantidad: 457}"];
+nodo33[ shape=record, label ="{Codigo: 33|Nombre: Licencia Acero Ensalada|Precio: 664|Cantidad: 440}"];
+nodo31[ shape=record, label ="{Codigo: 31|Nombre: Sin marca Soft Tocino|Precio: 897|Cantidad: 248}"];
+nodo30[ shape=record, label ="{Codigo: 30|Nombre: Artesanal Hormigón Auto|Precio: 778|Cantidad: 306}"];
+nodo31->nodo30
+nodo32[ shape=record, label ="{Codigo: 32|Nombre: Ergonómico Fresco Camisa|Precio: 146|Cantidad: 42}"];
+nodo31->nodo32
+nodo33->nodo31
+nodo34[ shape=record, label ="{Codigo: 34|Nombre: Gorgeous Plástico Bike|Precio: 995|Cantidad: 232}"];
+nodo35[ shape=record, label ="{Codigo: 35|Nombre: Ergonómico Frozen Pizza|Precio: 382|Cantidad: 270}"];
+nodo34->nodo35
+nodo33->nodo34
+nodo36->nodo33
+nodo40[ shape=record, label ="{Codigo: 40|Nombre: Inteligente Metal Ensalada|Precio: 659|Cantidad: 469}"];
+nodo38[ shape=record, label ="{Codigo: 38|Nombre: Refinado Acero Presidente|Precio: 377|Cantidad: 69}"];
+nodo37[ shape=record, label ="{Codigo: 37|Nombre: Artesanal Plástico Computadora|Precio: 361|Cantidad: 199}"];
+nodo38->nodo37
+nodo39[ shape=record, label ="{Codigo: 39|Nombre: Elegante Caucho Mesa|Precio: 713|Cantidad: 364}"];
+nodo38->nodo39
+nodo40->nodo38
+nodo41[ shape=record, label ="{Codigo: 41|Nombre: Refinado Hormigón Tocino|Precio: 569|Cantidad: 69}"];
+nodo42[ shape=record, label ="{Codigo: 42|Nombre: Fantástico Hormigón Sombrero|Precio: 852|Cantidad: 37}"];
+nodo41->nodo42
+nodo40->nodo41
+nodo36->nodo40
+}

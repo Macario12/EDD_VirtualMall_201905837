@@ -3,20 +3,28 @@ package estructura
 import (
 	"fmt"
 
+	"../Tabla_Hash"
 	"../tienda"
 )
 
 type Nodo struct {
-	Store    tienda.Store
-	Next     *Nodo
-	Previous *Nodo
+	Store       tienda.Store
+	Next        *Nodo
+	Previous    *Nodo
+	Comentarios *Tabla_Hash.TablaHash
 }
 
 func NewNodo(Store tienda.Store) *Nodo {
 	return &Nodo{
 		Store: Store,
+		Comentarios:  Tabla_Hash.NewTablaHash(7),
 	}
 }
+
+func (n *Nodo) GetTabla() *Tabla_Hash.TablaHash {
+	return n.Comentarios
+}
+
 
 func (n *Nodo) SetStore(Store tienda.Store) {
 	n.Store = Store
@@ -62,7 +70,9 @@ func (s *List) Add(e tienda.Store) {
 	s.Frist = nodoaux
 	s.size++
 }
-
+func (lista List) GetLen() int {
+	return lista.size
+}
 func (s List) Printlist() {
 	imprimir := s.Frist
 	for s.size != 0 {
@@ -102,6 +112,17 @@ func (s *List) DeleteStore(Nombre string) bool {
 	return false
 }
 
+func (lista *List) ObtenerNodo(indice int) *Nodo {
+	if indice >= 0 && indice < lista.size {
+		nodoActual := lista.Frist
+		for i := 0; i < indice; i++ {
+			nodoActual = nodoActual.GetNext()
+		}
+		return nodoActual
+	}
+	return nil
+}
+
 func (s *List) SearchStore(Nombre string) tienda.Store {
 	tienda := tienda.Store{}
 	if s.Frist != nil {
@@ -119,4 +140,22 @@ func (s *List) SearchStore(Nombre string) tienda.Store {
 	}
 
 	return tienda
+}
+
+func (s *List) SearchNodo(Nombre string, Contact string) *Nodo {
+	var Nodoaux *Nodo
+	if s.Frist != nil {
+		Nodoaux = s.Frist
+
+		for Nodoaux != nil {
+			if Nodoaux.GetStore().GetName() == Nombre && Nodoaux.GetStore().GetContact() == Contact{
+				return Nodoaux
+
+			}
+			Nodoaux = Nodoaux.Next
+		}
+
+	}
+
+	return Nodoaux
 }

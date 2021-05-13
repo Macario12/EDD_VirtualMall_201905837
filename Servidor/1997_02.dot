@@ -1,0 +1,19 @@
+digraph { 
+rankdir = TB; 
+node [shape=rectangle, height=0.5, width=2] 
+graph[ nodesep = 0.5] 
+Matris[label="Matris"] 
+nodo11 [label="11"] 
+nodo23 [label="23"] 
+nodoCámaras_y_Fotografia [label="Cámaras y Fotografia"] 
+Matris -> nodo11 [dir=both] 
+nodo11 -> nodo23 [dir=both] 
+Matris -> nodoCámaras_y_Fotografia [dir=both] 
+nodo0y0[label="1"] 
+nodo1y0[label="1"] 
+nodo11 -> nodo0y0[dir=both] 
+nodo23 -> nodo1y0[dir=both] 
+nodoCámaras_y_Fotografia -> nodo1y0[constraint=false, dir=both] 
+{ rank=same; Matris; nodo11; nodo23} 
+{ rank=same;nodoCámaras_y_Fotografia;nodo1y0} 
+}

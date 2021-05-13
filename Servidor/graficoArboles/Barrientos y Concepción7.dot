@@ -1,0 +1,34 @@
+digraph grafico{
+rankdir=UD 
+node[shape=box] 
+concentrate=true 
+nodo65[ shape=record, label ="{Codigo: 65|Nombre: Ergonómico Frozen Toallas|Precio: 742|Cantidad: 389}"];
+nodo61[ shape=record, label ="{Codigo: 61|Nombre: Licencia Frozen Jabón|Precio: 513|Cantidad: 70}"];
+nodo57[ shape=record, label ="{Codigo: 57|Nombre: Inteligente Metal Toallas|Precio: 167|Cantidad: 370}"];
+nodo56[ shape=record, label ="{Codigo: 56|Nombre: Rústico Acero Pelota|Precio: 354|Cantidad: 460}"];
+nodo55[ shape=record, label ="{Codigo: 55|Nombre: Hecho a mano Metal Mesa|Precio: 677|Cantidad: 163}"];
+nodo56->nodo55
+nodo57->nodo56
+nodo59[ shape=record, label ="{Codigo: 59|Nombre: Pequeño Acero Zapatos|Precio: 700|Cantidad: 244}"];
+nodo58[ shape=record, label ="{Codigo: 58|Nombre: Increíble Plástico Mesa|Precio: 826|Cantidad: 297}"];
+nodo59->nodo58
+nodo60[ shape=record, label ="{Codigo: 60|Nombre: Fantástico Hormigón Presidente|Precio: 87|Cantidad: 53}"];
+nodo59->nodo60
+nodo57->nodo59
+nodo61->nodo57
+nodo63[ shape=record, label ="{Codigo: 63|Nombre: Práctica Granito Pescado|Precio: 563|Cantidad: 169}"];
+nodo62[ shape=record, label ="{Codigo: 62|Nombre: Rústico Acero Sombrero|Precio: 514|Cantidad: 149}"];
+nodo63->nodo62
+nodo64[ shape=record, label ="{Codigo: 64|Nombre: Gorgeous Metal Sombrero|Precio: 215|Cantidad: 20}"];
+nodo63->nodo64
+nodo61->nodo63
+nodo65->nodo61
+nodo67[ shape=record, label ="{Codigo: 67|Nombre: Gorgeous Plástico Pizza|Precio: 23|Cantidad: 125}"];
+nodo66[ shape=record, label ="{Codigo: 66|Nombre: Inteligente Caucho Embutidos|Precio: 698|Cantidad: 408}"];
+nodo67->nodo66
+nodo68[ shape=record, label ="{Codigo: 68|Nombre: Pequeño Fresco Auto|Precio: 541|Cantidad: 115}"];
+nodo69[ shape=record, label ="{Codigo: 69|Nombre: Increíble Metal Queso|Precio: 4|Cantidad: 267}"];
+nodo68->nodo69
+nodo67->nodo68
+nodo65->nodo67
+}

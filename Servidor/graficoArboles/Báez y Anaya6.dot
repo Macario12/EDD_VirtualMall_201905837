@@ -1,0 +1,32 @@
+digraph grafico{
+rankdir=UD 
+node[shape=box] 
+concentrate=true 
+nodo669[ shape=record, label ="{Codigo: 669|Nombre: Sin marca Cotton Ensalada|Precio: 316|Cantidad: 52}"];
+nodo665[ shape=record, label ="{Codigo: 665|Nombre: Rústico Metal Sombrero|Precio: 330|Cantidad: 396}"];
+nodo663[ shape=record, label ="{Codigo: 663|Nombre: Artesanal Hormigón Jabón|Precio: 936|Cantidad: 354}"];
+nodo664[ shape=record, label ="{Codigo: 664|Nombre: Refinado Metal Mesa|Precio: 514|Cantidad: 185}"];
+nodo663->nodo664
+nodo665->nodo663
+nodo667[ shape=record, label ="{Codigo: 667|Nombre: Elegante Acero Camisa|Precio: 152|Cantidad: 387}"];
+nodo666[ shape=record, label ="{Codigo: 666|Nombre: Elegante Acero Pizza|Precio: 742|Cantidad: 356}"];
+nodo667->nodo666
+nodo668[ shape=record, label ="{Codigo: 668|Nombre: Elegante Madera Tuna|Precio: 779|Cantidad: 19}"];
+nodo667->nodo668
+nodo665->nodo667
+nodo669->nodo665
+nodo672[ shape=record, label ="{Codigo: 672|Nombre: Práctica Frozen Pelota|Precio: 274|Cantidad: 395}"];
+nodo671[ shape=record, label ="{Codigo: 671|Nombre: Hecho a mano Acero Sombrero|Precio: 900|Cantidad: 92}"];
+nodo670[ shape=record, label ="{Codigo: 670|Nombre: Genérica Acero Teclado|Precio: 742|Cantidad: 405}"];
+nodo671->nodo670
+nodo672->nodo671
+nodo674[ shape=record, label ="{Codigo: 674|Nombre: Ergonómico Acero Ensalada|Precio: 678|Cantidad: 311}"];
+nodo673[ shape=record, label ="{Codigo: 673|Nombre: Inteligente Metal Toallas|Precio: 958|Cantidad: 278}"];
+nodo674->nodo673
+nodo676[ shape=record, label ="{Codigo: 676|Nombre: Hecho a mano Hormigón Ratón|Precio: 27|Cantidad: 4}"];
+nodo675[ shape=record, label ="{Codigo: 675|Nombre: Pequeño Plástico Tocino|Precio: 263|Cantidad: 36}"];
+nodo676->nodo675
+nodo674->nodo676
+nodo672->nodo674
+nodo669->nodo672
+}

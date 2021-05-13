@@ -8,7 +8,15 @@ import (
 )
 
 func encrypt(dato string, llave string) string {
-	key := []byte("keygopostmediumkeygopostmediumke")
+	llave32 := llave
+	if(llave32 == ""){
+		llave32 = "keygopostmediumkeygopostmediumke"
+	}
+	for i := len(llave); i < 32; i++ {
+		llave32 += "a"
+	}
+	fmt.Println(llave32)
+	key := []byte(llave32)
 	plaintext := []byte(dato)
 
 	block, err := aes.NewCipher(key)

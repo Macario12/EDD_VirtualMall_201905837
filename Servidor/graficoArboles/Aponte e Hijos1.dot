@@ -1,0 +1,24 @@
+digraph grafico{
+rankdir=UD 
+node[shape=box] 
+concentrate=true 
+nodo399[ shape=record, label ="{Codigo: 399|Nombre: Hecho a mano Cotton Ratón|Precio: 355|Cantidad: 132}"];
+nodo397[ shape=record, label ="{Codigo: 397|Nombre: Práctica Fresco Ensalada|Precio: 429|Cantidad: 458}"];
+nodo396[ shape=record, label ="{Codigo: 396|Nombre: Sin marca Hormigón Zapatos|Precio: 388|Cantidad: 130}"];
+nodo397->nodo396
+nodo398[ shape=record, label ="{Codigo: 398|Nombre: Refinado Caucho Toallas|Precio: 802|Cantidad: 326}"];
+nodo397->nodo398
+nodo399->nodo397
+nodo402[ shape=record, label ="{Codigo: 402|Nombre: Hecho a mano Fresco Ensalada|Precio: 294|Cantidad: 411}"];
+nodo401[ shape=record, label ="{Codigo: 401|Nombre: Increíble Fresco Teclado|Precio: 581|Cantidad: 67}"];
+nodo400[ shape=record, label ="{Codigo: 400|Nombre: Refinado Granito Ratón|Precio: 674|Cantidad: 145}"];
+nodo401->nodo400
+nodo402->nodo401
+nodo404[ shape=record, label ="{Codigo: 404|Nombre: Increíble Plástico Teclado|Precio: 163|Cantidad: 237}"];
+nodo403[ shape=record, label ="{Codigo: 403|Nombre: Licencia Soft Ratón|Precio: 388|Cantidad: 445}"];
+nodo404->nodo403
+nodo405[ shape=record, label ="{Codigo: 405|Nombre: Inteligente Frozen Auto|Precio: 209|Cantidad: 443}"];
+nodo404->nodo405
+nodo402->nodo404
+nodo399->nodo402
+}

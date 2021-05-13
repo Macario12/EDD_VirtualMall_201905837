@@ -38,6 +38,7 @@ export class RegistroComponent implements OnInit {
           console.log("Existe")
           localStorage.setItem('identity', JSON.stringify(this.identity));
           this._usuarioservice.UsuarioA = Respose
+          console.log(this._usuarioservice.UsuarioA)
           this._router.navigate(['/home']);
         }
       },
@@ -49,7 +50,7 @@ export class RegistroComponent implements OnInit {
         }
       }
     );
-    
+    console.log(this._usuarioservice.UsuarioA)
   }
 
   crearUsuario(){

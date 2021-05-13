@@ -1,5 +1,5 @@
 export class LLave{
     constructor(
-        public key:string,
+        public llave:string,
     ){}
 }

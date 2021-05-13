@@ -1,0 +1,38 @@
+digraph grafico{
+rankdir=UD 
+node[shape=box] 
+concentrate=true 
+nodo221[ shape=record, label ="{Codigo: 221|Nombre: Increíble Fresco Camisa|Precio: 462|Cantidad: 223}"];
+nodo216[ shape=record, label ="{Codigo: 216|Nombre: Refinado Madera Sombrero|Precio: 390|Cantidad: 61}"];
+nodo214[ shape=record, label ="{Codigo: 214|Nombre: Pequeño Frozen Sombrero|Precio: 822|Cantidad: 79}"];
+nodo212[ shape=record, label ="{Codigo: 212|Nombre: Sabrosa Soft Embutidos|Precio: 250|Cantidad: 357}"];
+nodo213[ shape=record, label ="{Codigo: 213|Nombre: Rústico Madera Teclado|Precio: 287|Cantidad: 475}"];
+nodo212->nodo213
+nodo214->nodo212
+nodo215[ shape=record, label ="{Codigo: 215|Nombre: Licencia Metal Ratón|Precio: 889|Cantidad: 272}"];
+nodo214->nodo215
+nodo216->nodo214
+nodo218[ shape=record, label ="{Codigo: 218|Nombre: Licencia Granito Sombrero|Precio: 213|Cantidad: 227}"];
+nodo217[ shape=record, label ="{Codigo: 217|Nombre: Licencia Fresco Ensalada|Precio: 972|Cantidad: 406}"];
+nodo218->nodo217
+nodo220[ shape=record, label ="{Codigo: 220|Nombre: Práctica Plástico Presidente|Precio: 360|Cantidad: 155}"];
+nodo219[ shape=record, label ="{Codigo: 219|Nombre: Gorgeous Plástico Toallas|Precio: 350|Cantidad: 338}"];
+nodo220->nodo219
+nodo218->nodo220
+nodo216->nodo218
+nodo221->nodo216
+nodo226[ shape=record, label ="{Codigo: 226|Nombre: Rústico Plástico Presidente|Precio: 254|Cantidad: 387}"];
+nodo223[ shape=record, label ="{Codigo: 223|Nombre: Hecho a mano Granito Toallas|Precio: 689|Cantidad: 486}"];
+nodo222[ shape=record, label ="{Codigo: 222|Nombre: Refinado Cotton Teclado|Precio: 776|Cantidad: 487}"];
+nodo223->nodo222
+nodo224[ shape=record, label ="{Codigo: 224|Nombre: Increíble Hormigón Pizza|Precio: 495|Cantidad: 491}"];
+nodo225[ shape=record, label ="{Codigo: 225|Nombre: Genérica Hormigón Pescado|Precio: 777|Cantidad: 425}"];
+nodo224->nodo225
+nodo223->nodo224
+nodo226->nodo223
+nodo228[ shape=record, label ="{Codigo: 228|Nombre: Ergonómico Granito Tuna|Precio: 354|Cantidad: 480}"];
+nodo227[ shape=record, label ="{Codigo: 227|Nombre: Gorgeous Fresco Pelota|Precio: 932|Cantidad: 423}"];
+nodo228->nodo227
+nodo226->nodo228
+nodo221->nodo226
+}

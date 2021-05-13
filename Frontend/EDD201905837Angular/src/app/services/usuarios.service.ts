@@ -9,6 +9,7 @@ import { Usuario } from '../models/usuario.model';
 })
 export class UsuariosService {
   public url: string;
+  public llave: string;
   public UsuarioA: Usuario;
   constructor(public _http: HttpClient) {
 

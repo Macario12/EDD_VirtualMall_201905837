@@ -1,0 +1,28 @@
+digraph grafico{
+rankdir=UD 
+node[shape=box] 
+concentrate=true 
+nodo690[ shape=record, label ="{Codigo: 690|Nombre: Hecho a mano Plástico Sombrero|Precio: 649|Cantidad: 486}"];
+nodo686[ shape=record, label ="{Codigo: 686|Nombre: Sabrosa Granito Embutidos|Precio: 105|Cantidad: 345}"];
+nodo685[ shape=record, label ="{Codigo: 685|Nombre: Práctica Fresco Computadora|Precio: 51|Cantidad: 84}"];
+nodo684[ shape=record, label ="{Codigo: 684|Nombre: Genérica Metal Ratón|Precio: 448|Cantidad: 303}"];
+nodo685->nodo684
+nodo686->nodo685
+nodo688[ shape=record, label ="{Codigo: 688|Nombre: Genérica Fresco Presidente|Precio: 869|Cantidad: 204}"];
+nodo687[ shape=record, label ="{Codigo: 687|Nombre: Hecho a mano Cotton Presidente|Precio: 15|Cantidad: 322}"];
+nodo688->nodo687
+nodo689[ shape=record, label ="{Codigo: 689|Nombre: Increíble Granito Sombrero|Precio: 713|Cantidad: 148}"];
+nodo688->nodo689
+nodo686->nodo688
+nodo690->nodo686
+nodo694[ shape=record, label ="{Codigo: 694|Nombre: Pequeño Metal Tuna|Precio: 826|Cantidad: 99}"];
+nodo692[ shape=record, label ="{Codigo: 692|Nombre: Increíble Caucho Jabón|Precio: 961|Cantidad: 362}"];
+nodo691[ shape=record, label ="{Codigo: 691|Nombre: Artesanal Cotton Pescado|Precio: 805|Cantidad: 176}"];
+nodo692->nodo691
+nodo693[ shape=record, label ="{Codigo: 693|Nombre: Hecho a mano Madera Pescado|Precio: 324|Cantidad: 98}"];
+nodo692->nodo693
+nodo694->nodo692
+nodo695[ shape=record, label ="{Codigo: 695|Nombre: Sin marca Hormigón Ensalada|Precio: 354|Cantidad: 213}"];
+nodo694->nodo695
+nodo690->nodo694
+}
