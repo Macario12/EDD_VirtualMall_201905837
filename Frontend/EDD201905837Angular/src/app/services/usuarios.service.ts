@@ -48,6 +48,18 @@ export class UsuariosService {
   getArbolC(): Observable<string>{
     return this._http.get<string>(this.url+'arbolC');
   }
+  getMerkleTienda(): Observable<string>{
+    return this._http.get<string>(this.url+'merkleTienda');
+  }
+  getMerkleProductos(): Observable<string>{
+    return this._http.get<string>(this.url+'merkleProductos');
+  }
+  getMerklePedidos(): Observable<string>{
+    return this._http.get<string>(this.url+'merklePedidos');
+  }
+  getMerkleUsuarios(): Observable<string>{
+    return this._http.get<string>(this.url+'merkleUsuarios');
+  }
   getArbolCS(): Observable<string>{
     return this._http.get<string>(this.url+'arbolCS');
   }

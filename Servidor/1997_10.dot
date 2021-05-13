@@ -3,13 +3,18 @@ rankdir = TB;
 node [shape=rectangle, height=0.5, width=2] 
 graph[ nodesep = 0.5] 
 Matris[label="Matris"] 
-nodo06 [label="06"] 
-nodoTela [label="Tela"] 
-Matris -> nodo06 [dir=both] 
-Matris -> nodoTela [dir=both] 
+nodo15 [label="15"] 
+nodo26 [label="26"] 
+nodoCocina [label="Cocina"] 
+Matris -> nodo15 [dir=both] 
+nodo15 -> nodo26 [dir=both] 
+Matris -> nodoCocina [dir=both] 
 nodo0y0[label="1"] 
-nodo06 -> nodo0y0[dir=both] 
-nodoTela -> nodo0y0[constraint=false, dir=both] 
-{ rank=same; Matris; nodo06} 
-{ rank=same;nodoTela;nodo0y0} 
+nodo1y0[label="1"] 
+nodo15 -> nodo0y0[dir=both] 
+nodo26 -> nodo1y0[dir=both] 
+nodoCocina -> nodo0y0[constraint=false, dir=both] 
+nodo0y0 -> nodo1y0[constraint=false, dir=both] 
+{ rank=same; Matris; nodo15; nodo26} 
+{ rank=same;nodoCocina;nodo0y0;nodo1y0} 
 }

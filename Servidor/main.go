@@ -23,6 +23,7 @@ import (
 	"./matrizDispersa"
 	"./pedidos"
 	"./tienda"
+	"./ArbolMerkle"
 	"github.com/gorilla/mux"
 )
 
@@ -78,10 +79,14 @@ func agregar(w http.ResponseWriter, r *http.Request) {
 var indicesfor []string
 var depa []string
 
+func EncryptSha256(texto string) string {
+    sum := sha256.Sum256([]byte(texto))
+    return hex.EncodeToString(sum[:])
+}
+var ArbolMerkleTienda *ArbolMerkle.ArbolMerkle
 func linealizarMatriz() {
 	linealizar = make([]estructura.List, 0, len(vectorJSON.Datos)*len(vectorJSON.Datos[0].Departamentos)*5)
 	var varpureba int
-
 	for i := 0; i < len(vectorJSON.Datos); i++ {
 		fmt.Println("Indice: " + (vectorJSON.Datos[i].Indice))
 		indicesfor = append(indicesfor, (vectorJSON.Datos[i].Indice))
@@ -102,7 +107,13 @@ func linealizarMatriz() {
 				cotactaux := vectorJSON.Datos[i].Departamentos[j].Tiendas[x].Contact
 				scoreaux := vectorJSON.Datos[i].Departamentos[j].Tiendas[x].Score
 				logoaux := vectorJSON.Datos[i].Departamentos[j].Tiendas[x].Logo
+				
+				
+				tiendaMerkle := nombreaux+","+descraux+","+cotactaux+","+strconv.Itoa(scoreaux)+","+logoaux
 
+				tiendaMerkleSha := EncryptSha256(tiendaMerkle)
+
+				ArbolMerkleTienda.Insertar(tiendaMerkle, tiendaMerkleSha)
 				arbolnuevo := arbol_avl.Newtree()
 				arbolaux64 := "soy el imagen Base 64"
 				pedidoaux := "Hola soy la img en 64"
@@ -135,7 +146,7 @@ func linealizarMatriz() {
 	}
 
 	fmt.Println(depa)
-
+	ArbolMerkle.Graficararbol(ArbolMerkleTienda, "ArbolMerkleTienda")
 	for i := 0; i < len(linealizar); i++ {
 		Ordenar(linealizar[i])
 	}
@@ -426,6 +437,8 @@ func AgregarInventario(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(arbol_avl.VectorInventario)
 }
 
+var ArbolMerkleProductos *ArbolMerkle.ArbolMerkle
+
 func agregarProductos() {
 	for x := 0; x < len(arbol_avl.VectorInventario.Inventarios); x++ {
 		indice := string(arbol_avl.VectorInventario.Inventarios[x].Tienda[0])
@@ -458,7 +471,11 @@ func agregarProductos() {
 			cantidadaux := arbol_avl.VectorInventario.Inventarios[x].Productoss[y].Cantidad
 			imagenaux := arbol_avl.VectorInventario.Inventarios[x].Productoss[y].Imagen
 			almacenamientoaux := arbol_avl.VectorInventario.Inventarios[x].Productoss[y].Almacenamiento
+			productoMerkle := nombreaux+","+strconv.Itoa(codigoaux)+","+descripcionaux+","+strconv.Itoa(precioaux)+","+strconv.Itoa(cantidadaux)+","+imagenaux+","+almacenamientoaux
 
+			productoMerkleSha := EncryptSha256(productoMerkle)
+
+			ArbolMerkleProductos.Insertar(productoMerkle, productoMerkleSha)
 			productoaux := *arbol_avl.NewInventario(nombreaux, codigoaux, descripcionaux, precioaux, cantidadaux, imagenaux, almacenamientoaux)
 			//fmt.Print(productoaux)
 			arbolaux.Insertroot(productoaux)
@@ -469,6 +486,7 @@ func agregarProductos() {
 		fmt.Println("-----------------------------------------")
 
 		*linealizar[posicionL].SearchStore(arbol_avl.VectorInventario.Inventarios[x].Tienda).Arbol64 = arbol_avl.Graficararbol(arbolaux.Root, arbol_avl.VectorInventario.Inventarios[x].Tienda+strconv.Itoa(x))
+		ArbolMerkle.Graficararbol(ArbolMerkleProductos,"ArbolMerkleProductos")
 	}
 
 }
@@ -484,14 +502,24 @@ type ContenedorMes struct {
 	mes    string
 	matris *matrizDispersa.MatrisDispersa
 }
-
+var ArbolMerklePedidos *ArbolMerkle.ArbolMerkle
 func cargarPedidos(w http.ResponseWriter, r *http.Request) {
 	var contenedorPedidos pedidos.PedidosP
 	_ = json.NewDecoder(r.Body).Decode(&contenedorPedidos)
 
 	//se agregan los años
+	for  x := 0; x < len(contenedorPedidos.PedidosPr); x++{
+		pedido := contenedorPedidos.PedidosPr[x]
+		pedidoMerkle := pedido.Fecha+","+pedido.Tienda+","+pedido.Departamento+","+strconv.Itoa(pedido.Calificacion)
+
+		pedidoMerkleSha := EncryptSha256(pedidoMerkle)
+
+		ArbolMerklePedidos.Insertar(pedidoMerkle, pedidoMerkleSha)
+	}
 	for _, pedido := range contenedorPedidos.PedidosPr {
+		
 		fechaString := strings.Split(pedido.Fecha, "-")
+		
 		año := fechaString[2]
 		añoObject := ContenedorAño{año: año}
 		añoAgregado := false
@@ -577,6 +605,7 @@ func cargarPedidos(w http.ResponseWriter, r *http.Request) {
 
 	(w).Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
+	ArbolMerkle.Graficararbol(ArbolMerklePedidos,"ArbolMerklePedidos")
 	json.NewEncoder(w).Encode(contenedorPedidos)
 }
 
@@ -623,17 +652,21 @@ func graficarGrafo(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(grafo.Graficar("GRafoCa", recorrido.Trayectoria, recorrido.EstadosTrayectoria))
 }
 
+var ArbolMerkleUsuarios *ArbolMerkle.ArbolMerkle
 func agregarUsuario() {
-
 	for x := 0; x < len(arbol_b.VectorUsers.Usuarios); x++ {
 		encriptar := []byte(arbol_b.VectorUsers.Usuarios[x].Password)
 		hash := sha256.Sum256(encriptar)
 		usuario := arbol_b.NewUser(arbol_b.VectorUsers.Usuarios[x].DPI, arbol_b.VectorUsers.Usuarios[x].Nombre, arbol_b.VectorUsers.Usuarios[x].Correo, hex.EncodeToString(hash[:]), arbol_b.VectorUsers.Usuarios[x].Cuenta)
+		usuarioMerkle := strconv.Itoa(arbol_b.VectorUsers.Usuarios[x].DPI)+"," +arbol_b.VectorUsers.Usuarios[x].Nombre+","+ arbol_b.VectorUsers.Usuarios[x].Correo+","+ hex.EncodeToString(hash[:])+"," +arbol_b.VectorUsers.Usuarios[x].Cuenta
 
+		usuarioMerkleSha := EncryptSha256(usuarioMerkle)
+
+			ArbolMerkleUsuarios.Insertar(usuarioMerkle, usuarioMerkleSha)
 		arbol.Insertar(arbol_b.NewKey(*usuario))
 
 	}
-
+	ArbolMerkle.Graficararbol(ArbolMerkleUsuarios,"ArbolUsuarioMerkle")
 }
 
 //Cargar Unico Usuario
@@ -657,7 +690,11 @@ var usuariounico arbol_b.User
 func agregarUsuarioUnico() {
 
 	usuario := arbol_b.NewUser(usuariounico.DPI, usuariounico.Nombre, usuariounico.Correo, usuariounico.Password, usuariounico.Cuenta)
+	usuarioMerkle := strconv.Itoa(usuariounico.DPI)+"," +usuariounico.Nombre+","+ usuariounico.Correo+","+ usuariounico.Password+"," +usuariounico.Cuenta
 
+	usuarioMerkleSha := EncryptSha256(usuarioMerkle)
+
+	ArbolMerkleUsuarios.Insertar(usuarioMerkle, usuarioMerkleSha)
 	arbol.Insertar(arbol_b.NewKey(*usuario))
 
 }
@@ -770,6 +807,42 @@ func graficarArbolBCifradoSencible(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(arbol.GraficarArbolCifradoSencible())
+
+}
+
+func graficarMerkleTienda(w http.ResponseWriter, r *http.Request) {
+
+	(w).Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode(ArbolMerkle.Graficararbol(ArbolMerkleTienda,"TiendaMerkle"))
+
+}
+
+func graficarMerkleProductos(w http.ResponseWriter, r *http.Request) {
+
+	(w).Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode(ArbolMerkle.Graficararbol(ArbolMerkleProductos,"ProductosMerkle"))
+
+}
+
+func graficarMerklePedidos(w http.ResponseWriter, r *http.Request) {
+
+	(w).Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode(ArbolMerkle.Graficararbol(ArbolMerklePedidos,"PedidosMerkle"))
+
+}
+
+func graficarMerkleUsuarios(w http.ResponseWriter, r *http.Request) {
+
+	(w).Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode(ArbolMerkle.Graficararbol(ArbolMerkleUsuarios,"UsuariosMerkle"))
 
 }
 
@@ -933,10 +1006,22 @@ func subirComentarioProducto(w http.ResponseWriter, r *http.Request) {
 
 //MAIN
 func main() {
+	
+	ArbolMerkleTienda = ArbolMerkle.NewArbolMerkle()
+	ArbolMerkleProductos = ArbolMerkle.NewArbolMerkle()
+	ArbolMerkleUsuarios = ArbolMerkle.NewArbolMerkle()
+	ArbolMerklePedidos = ArbolMerkle.NewArbolMerkle()
 	arbol = arbol_b.NewArbol(5)
 	encriptar := []byte("1234")
 	hash := sha256.Sum256(encriptar)
 	userDefault := arbol_b.NewUser(1234567890101, "EDD2021", " auxiliar@edd.com", hex.EncodeToString(hash[:]), "Admin")
+	
+	usuarioMerkle := strconv.Itoa(1234567890101)+"," + "EDD2021"+","+ " auxiliar@edd.com"+","+ hex.EncodeToString(hash[:])+"," +"Admin"
+
+	usuarioMerkleSha := EncryptSha256(usuarioMerkle)
+
+	ArbolMerkleUsuarios.Insertar(usuarioMerkle, usuarioMerkleSha)
+	
 	arbol.Insertar(arbol_b.NewKey(*userDefault))
 	router := mux.NewRouter()
 
@@ -960,7 +1045,12 @@ func main() {
 	router.HandleFunc("/grafo", graficarGrafo).Methods("GET")
 	router.HandleFunc("/arbolCS", graficarArbolBCifradoSencible).Methods("GET")
 	router.HandleFunc("/Cgrafo", cargarGrafo).Methods("POST")
-
+	//RUTASMERKLE
+	
+	router.HandleFunc("/merkleTienda", graficarMerkleTienda).Methods("GET")
+	router.HandleFunc("/merkleProductos", graficarMerkleProductos).Methods("GET")
+	router.HandleFunc("/merklePedidos", graficarMerklePedidos).Methods("GET")
+	router.HandleFunc("/merkleUsuarios", graficarMerkleUsuarios).Methods("GET")
 	//COMENTARIOS
 
 	router.HandleFunc("/getComentariosTienda", retornarComenTienda).Methods("POST")

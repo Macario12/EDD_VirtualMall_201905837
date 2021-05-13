@@ -53,6 +53,42 @@ export class ReportesComponent implements OnInit {
     },error => console.error(error))
   }
 
+  getMerkeUsuarios(){
+    this._usuarioService.getMerkleUsuarios().subscribe((arbolBase: string) =>{
+
+      this.arbol64 = arbolBase
+      this.verArbolModal(this.arbol64)
+      console.log(this.arbol64)
+
+    },error => console.error(error))
+  }
+  getMerkeTienda(){
+    this._usuarioService.getMerkleTienda().subscribe((arbolBase: string) =>{
+
+      this.arbol64 = arbolBase
+      this.verArbolModal(this.arbol64)
+      console.log(this.arbol64)
+
+    },error => console.error(error))
+  }
+  getMerkeProductos(){
+    this._usuarioService.getMerkleProductos().subscribe((arbolBase: string) =>{
+
+      this.arbol64 = arbolBase
+      this.verArbolModal(this.arbol64)
+      console.log(this.arbol64)
+
+    },error => console.error(error))
+  }
+  getMerkePedidos(){
+    this._usuarioService.getMerklePedidos().subscribe((arbolBase: string) =>{
+
+      this.arbol64 = arbolBase
+      this.verArbolModal(this.arbol64)
+      console.log(this.arbol64)
+
+    },error => console.error(error))
+  }
   verArbolModal(imagen: string){
     this.imageSource = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${imagen}`);
    }

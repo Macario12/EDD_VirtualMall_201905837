@@ -3,21 +3,17 @@ rankdir = TB;
 node [shape=rectangle, height=0.5, width=2] 
 graph[ nodesep = 0.5] 
 Matris[label="Matris"] 
+nodo02 [label="02"] 
 nodo03 [label="03"] 
-nodo31 [label="31"] 
-nodoCámaras_y_Fotografia [label="Cámaras y Fotografia"] 
-nodoTela [label="Tela"] 
-Matris -> nodo03 [dir=both] 
-nodo03 -> nodo31 [dir=both] 
-Matris -> nodoCámaras_y_Fotografia [dir=both] 
-nodoCámaras_y_Fotografia -> nodoTela [dir=both] 
-nodo0y1[label="1"] 
+nodoReproductores_web [label="Reproductores web"] 
+Matris -> nodo02 [dir=both] 
+nodo02 -> nodo03 [dir=both] 
+Matris -> nodoReproductores_web [dir=both] 
+nodo0y0[label="1"] 
 nodo1y0[label="1"] 
-nodo03 -> nodo0y1[dir=both] 
-nodo31 -> nodo1y0[dir=both] 
-nodoCámaras_y_Fotografia -> nodo1y0[constraint=false, dir=both] 
-nodoTela -> nodo0y1[constraint=false, dir=both] 
-{ rank=same; Matris; nodo03; nodo31} 
-{ rank=same;nodoCámaras_y_Fotografia;nodo1y0} 
-{ rank=same;nodoTela;nodo0y1} 
+nodo02 -> nodo0y0[dir=both] 
+nodo03 -> nodo1y0[dir=both] 
+nodoReproductores_web -> nodo1y0[constraint=false, dir=both] 
+{ rank=same; Matris; nodo02; nodo03} 
+{ rank=same;nodoReproductores_web;nodo1y0} 
 }
