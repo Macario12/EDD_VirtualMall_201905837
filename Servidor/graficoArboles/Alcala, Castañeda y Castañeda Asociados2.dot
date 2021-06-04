@@ -1,8 +1,0 @@
-digraph grafico{
-rankdir=UD 
-node[shape=box] 
-concentrate=true 
-nodo445[ shape=record, label ="{Codigo: 445|Nombre: Genérica Hormigón Auto|Precio: 18|Cantidad: 427}"];
-nodo446[ shape=record, label ="{Codigo: 446|Nombre: Ergonómico Acero Jabón|Precio: 737|Cantidad: 239}"];
-nodo445->nodo446
-}

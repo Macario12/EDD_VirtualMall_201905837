@@ -1,6 +1,0 @@
-digraph grafico{
-rankdir=UD 
-node[shape=box] 
-concentrate=true 
-nodo635[ shape=record, label ="{Codigo: 635|Nombre: Fantástico Fresco Toallas|Precio: 905|Cantidad: 455}"];
-}
