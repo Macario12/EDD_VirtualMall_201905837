@@ -121,6 +121,10 @@
               "devServerTarget": "EDD201905837Angular:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {}
         }
       }
     }
